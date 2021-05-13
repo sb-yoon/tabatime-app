@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Tabatime</string>
+
+    <string name="menu_open">메뉴 열림</string>
+    <string name="menu_close">메뉴 닫힘</string>
+
+    <!--sign-->
+    <string name="kLogin">카카오톡으로 로그인</string>
+    <string name="nLogin">비로그인</string>
+
+    <string name="login">로그인</string>
+    <string name="menu_history">기록</string>
+    <string name="menu_graph">통계</string>
+    <string name="menu_setting">설정</string>
+    <!--sign-->
+</resources>
