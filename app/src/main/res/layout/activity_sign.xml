@@ -3,18 +3,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.SignActivity">
-
-    <Button
-        android:id="@+id/btn_kLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/kLogin" />
+    android:background="@color/main"
+    tools:context=".activity.SplashActivity">
 
     <Button
         android:id="@+id/btn_nLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="@string/nLogin" />
+        android:text="@string/nLogin"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_height="35dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="205dp"
+        android:src="@drawable/ic_logo_white_long" />
+
+    <RelativeLayout
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="82dp"
+        android:background="@drawable/layer_yellow_round"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:src="@drawable/ic_kakao" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/nexon_lv_2_gothic_medium"
+            android:gravity="center_horizontal"
+            android:includeFontPadding="false"
+            android:text="@string/kLogin"
+            android:textColor="#381f1f"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+    </RelativeLayout>
 </RelativeLayout>

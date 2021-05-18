@@ -5,7 +5,7 @@
     <string name="menu_close">메뉴 닫힘</string>
 
     <!--sign-->
-    <string name="kLogin">카카오톡으로 로그인</string>
+    <string name="kLogin">카카오로 간편 로그인</string>
     <string name="nLogin">비로그인</string>
 
     <string name="login">로그인</string>
@@ -13,4 +13,21 @@
     <string name="menu_graph">통계</string>
     <string name="menu_setting">설정</string>
     <!--sign-->
+
+    <!--main-->
+    <string name="exercise_start">지금 운동을 시작하세요.</string>
+    <string name="title_exercise">운동</string>
+    <string name="title_rest">휴식</string>
+    <string name="title_set">세트</string>
+    <string name="title_round">라운드</string>
+    <string name="title_round_reset">라운드 초기화</string>
+    <string name="title_sound">사운드</string>
+    <string name="round">%1$sX</string>
+    <!--main-->
+
+    <!--exercise-->
+    <string name="exercise_stop">앱에서 나가면 운동 일시 정지</string>
+    <string name="total_num">&#160;/ %1$s</string>
+    <!--exercise-->
+
 </resources>

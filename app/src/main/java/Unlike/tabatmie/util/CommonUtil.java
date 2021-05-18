@@ -31,15 +31,7 @@ import Unlike.tabatmie.BuildConfig;
 
 public class CommonUtil {
 
-    public static final String SERVER_URL = "http://ct.cash2support.com/c.html";
-
-    public static final int ACTIVITY_RESULT_HISTORY = 1;
-    public static final int ACTIVITY_RESULT_PROFILE = ACTIVITY_RESULT_HISTORY + 1;
-    public static final int ACTIVITY_RESULT_NOTICE = ACTIVITY_RESULT_PROFILE + 1;
-    public static final int ACTIVITY_RESULT_FAQ = ACTIVITY_RESULT_NOTICE + 1;
-    public static final int ACTIVITY_RESULT_INVITE_FRIEND = ACTIVITY_RESULT_FAQ + 1;
-    public static final int ACTIVITY_RESULT_ACCESS = ACTIVITY_RESULT_INVITE_FRIEND + 1;
-    public static final int ACTIVITY_RESULT_SYSTEM_ALERT = ACTIVITY_RESULT_ACCESS + 1;
+    public static final String SERVER_URL = "";
 
     public static String setComma(String number, boolean type, boolean isPlus) {
         try {

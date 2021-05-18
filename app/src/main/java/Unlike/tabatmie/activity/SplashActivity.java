@@ -2,8 +2,9 @@ package Unlike.tabatmie.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,14 +22,12 @@ import butterknife.BindView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
-public class SignActivity extends AppCompatActivity implements View.OnClickListener {
+public class SplashActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = this.getClass().toString();
 
-    @BindView(R.id.btn_kLogin)
-    Button btn_kLogin;
-    @BindView(R.id.btn_nLogin)
-    Button btn_nLogin;
+    @BindView(R.id.btn_login)
+    RelativeLayout btn_login;
 
 
     @Override
@@ -39,42 +38,39 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
         Applications.fristInit(this);
         init();
 
-        if (Applications.preference.getValue(Preference.UID, "").equals("")) {
-            btn_kLogin.setVisibility(View.VISIBLE);
-            btn_nLogin.setVisibility(View.VISIBLE);
+        Intent intent = getIntent();
+        if (intent.getAction() != null && !intent.getAction().isEmpty() && intent.getAction().equals("login")) {
+            btn_login.setVisibility(View.VISIBLE);
         } else {
-            btn_kLogin.setVisibility(View.GONE);
-            btn_nLogin.setVisibility(View.GONE);
+            btn_login.setVisibility(View.GONE);
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    goMain();
+                    goMain(1);
                 }
             };
             Timer timer = new Timer();
-            long splashDelay = 0;
+            long splashDelay = 2000;
             timer.schedule(task, splashDelay);
+
         }
+
     }
 
     public void init() {
-        btn_kLogin.setOnClickListener(this);
-        btn_nLogin.setOnClickListener(this);
+        btn_login.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.btn_kLogin:
-                if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(SignActivity.this)) {
-                    UserApiClient.getInstance().loginWithKakaoTalk(SignActivity.this, kLoginCallback);
+            case R.id.btn_login:
+                if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(SplashActivity.this)) {
+                    UserApiClient.getInstance().loginWithKakaoTalk(SplashActivity.this, kLoginCallback);
                 } else {
-                    UserApiClient.getInstance().loginWithKakaoAccount(SignActivity.this, kLoginCallback);
+                    UserApiClient.getInstance().loginWithKakaoAccount(SplashActivity.this, kLoginCallback);
                 }
-                break;
-            case R.id.btn_nLogin:
-                goMain();
                 break;
         }
     }
@@ -92,6 +88,10 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                             if (user != null) {
                                 //login success
                                 Applications.preference.put(Preference.UID, "success");
+                                if (!user.getKakaoAccount().getEmail().isEmpty()) {
+                                    Applications.preference.put(Preference.EMAIL, user.getKakaoAccount().getEmail());
+                                }
+                                goMain(2);
                             } else {
                                 //login fail
                             }
@@ -107,8 +107,10 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    public void goMain() {
-        Intent intent = new Intent(SignActivity.this, MainActivity.class);
+    public void goMain(int type) {
+        Log.e(TAG, "goMain / " + type);
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }

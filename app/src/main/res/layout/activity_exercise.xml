@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layer_exercise"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_lightorange"
+    tools:context=".activity.ExerciseActivity">
+
+    <TextView
+        android:id="@+id/tv_exercise_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/nexon_lv_2_gothic"
+        android:includeFontPadding="false"
+        android:text=""
+        android:textColor="#ffffff"
+        android:textSize="24dp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/layer_top"
+        android:layout_width="match_parent"
+        android:layout_height="94dp"
+        android:layout_below="@id/tv_exercise_title"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp">
+
+        <RelativeLayout
+            android:id="@+id/layer_pause"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/layer_white_round_24"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/nexon_lv_2_gothic"
+                android:includeFontPadding="false"
+                android:text="@string/exercise_stop"
+                android:textColor="#ffffff"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:checked="true"
+                android:thumb="@drawable/switch_thumb"
+                android:track="@drawable/switch_pink"
+                app:switchMinWidth="38dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layer_exercise_num"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/layer_white_round_24"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="@string/title_set"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_set_current_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@id/tv_set_total_num"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="32dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_set_total_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="@string/total_num"
+                    android:textColor="@color/white"
+                    android:textSize="32dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="16dp"
+                android:layout_height="match_parent" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/layer_white_round_24"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="@string/title_round"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_round_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@id/tv_round_total_num"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="1"
+                    android:textColor="@color/white"
+                    android:textSize="32dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_round_total_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="@string/total_num"
+                    android:textColor="@color/white"
+                    android:textSize="32dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_action"
+        android:layout_below="@id/layer_top"
+        android:layout_marginLeft="56dp"
+        android:layout_marginRight="56dp">
+
+        <com.dinuscxj.progressbar.CircleProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="248dp"
+            android:layout_height="248dp"
+            android:layout_centerInParent="true"
+            app:line_width="8dp"
+            app:progress_end_color="#c4c6e5"
+            app:progress_shader="sweep"
+            app:progress_start_color="#ebecf3"
+            app:progress_start_degree="-90"
+            app:progress_stroke_cap="round"
+            app:progress_stroke_width="1dp"
+            app:progress_style="solid_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_action"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="57dp"
+        android:background="@drawable/layer_white_circle"
+        android:elevation="20dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_pause_pink" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_soundd"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="42dp"
+        android:layout_marginBottom="68dp"
+        android:layout_toLeftOf="@id/btn_action"
+        android:background="@drawable/layer_white_circle_42"
+        android:elevation="20dp">
+
+        <ImageView
+            android:id="@+id/iv_sound_set"
+            android:layout_width="17dp"
+            android:layout_height="16dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_volume_white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_exercise_out"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="42dp"
+        android:layout_marginBottom="68dp"
+        android:layout_toRightOf="@id/btn_action"
+        android:background="@drawable/layer_white_circle_42"
+        android:elevation="20dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_out" />
+    </RelativeLayout>
+</RelativeLayout>

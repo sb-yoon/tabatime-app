@@ -10,6 +10,14 @@ public class Preference {
     private final String VER_NAME = "unlike.tabatmie.ver";
 
     public static String UID = "uid";
+    public static String EMAIL = "email";
+
+    public static String EXERCISE = "exercise";
+    public static String REST = "rest";
+    public static String SET = "set";
+    public static String ROUND = "round";
+    public static String ROUND_RESET = "round_reset";
+    public static String SOUND = "sound";
 
     private static Context context;
 

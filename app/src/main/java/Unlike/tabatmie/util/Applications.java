@@ -44,11 +44,6 @@ public class Applications extends Application {
 
     public static void fristInit(Activity activity) {
         ButterKnife.bind(activity);
-
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }*/
     }
 
     public static int getStatusBarHeight(Activity activity) {
