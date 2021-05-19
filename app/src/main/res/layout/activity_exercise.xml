@@ -13,11 +13,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="70dp"
         android:fontFamily="@font/nexon_lv_2_gothic"
         android:includeFontPadding="false"
-        android:text=""
-        android:textColor="#ffffff"
+        android:text="@string/exercise_ready_title"
+        android:textColor="@color/white"
         android:textSize="24dp"
         android:textStyle="bold" />
 
@@ -46,7 +46,7 @@
                 android:fontFamily="@font/nexon_lv_2_gothic"
                 android:includeFontPadding="false"
                 android:text="@string/exercise_stop"
-                android:textColor="#ffffff"
+                android:textColor="@color/white"
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
@@ -184,6 +184,38 @@
             app:progress_stroke_cap="round"
             app:progress_stroke_width="1dp"
             app:progress_style="solid_line" />
+
+        <LinearLayout
+            android:layout_width="248dp"
+            android:layout_height="248dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nexon_lv_2_gothic"
+                android:gravity="center_horizontal"
+                android:includeFontPadding="false"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="48dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nexon_lv_2_gothic"
+                android:gravity="center_horizontal"
+                android:includeFontPadding="false"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -196,15 +228,39 @@
         android:background="@drawable/layer_white_circle"
         android:elevation="20dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="23dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/iv_play"
+                android:layout_width="21dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_play_pink"
+                android:visibility="visible"/>
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
         <ImageView
+            android:id="@+id/iv_pause"
             android:layout_width="18dp"
             android:layout_height="24dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_pause_pink" />
+            android:src="@drawable/ic_pause_pink"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/btn_soundd"
+        android:id="@+id/btn_sound"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_alignParentBottom="true"

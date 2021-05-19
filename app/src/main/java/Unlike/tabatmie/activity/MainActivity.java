@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import Unlike.tabatmie.R;
 import Unlike.tabatmie.util.Applications;
+import Unlike.tabatmie.util.CommonUtil;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
 
@@ -100,35 +101,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tv_mail.setText(email);
         }
 
-        int exercise = Applications.preference.getValue(Preference.EXERCISE, 30);
-        int rest = Applications.preference.getValue(Preference.REST, 10);
-        int set = Applications.preference.getValue(Preference.SET, 5);
-        int round = Applications.preference.getValue(Preference.ROUND, 1);
-        int round_reset = Applications.preference.getValue(Preference.ROUND_RESET, 10);
+        int exercise = Applications.preference.getValue(Preference.EXERCISE, Preference.D_EXERCISE);
+        int rest = Applications.preference.getValue(Preference.REST, Preference.D_REST);
+        int set = Applications.preference.getValue(Preference.SET, Preference.D_SET);
+        int round = Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND);
+        int round_reset = Applications.preference.getValue(Preference.ROUND_RESET, Preference.D_ROUND_RESET);
         int exercise_time = (exercise + rest) * set * round - rest;
 
-        tv_exercise_time.setText(getTime(exercise_time));
-        tv_exercise.setText(getTime(exercise));
-        tv_rest.setText(getTime(rest));
+        tv_exercise_time.setText(CommonUtil.getTime(exercise_time));
+        tv_exercise.setText(CommonUtil.getTime(exercise));
+        tv_rest.setText(CommonUtil.getTime(rest));
         tv_set.setText(set + "");
         tv_round.setText(getResources().getString(R.string.round, round + ""));
-        tv_round_reset.setText(getTime(round_reset));
+        tv_round_reset.setText(CommonUtil.getTime(round_reset));
         tv_sound.setText(Applications.preference.getValue(Preference.SOUND, "일반음"));
     }
 
-    public String getTime(int cnt) {
-        int hour, min, sec;
-        sec = cnt;
-        min = sec / 60;
-        hour = min / 60;
-        sec = sec % 60;
-        min = min % 60;
-        if (hour > 0) {
-            return String.format("%02d", hour) + ":" + String.format("%02d", min) + ":" + String.format("%02d", sec);
-        } else {
-            return String.format("%02d", min) + ":" + String.format("%02d", sec);
-        }
-    }
+
 
     @Override
     public void onClick(View view) {

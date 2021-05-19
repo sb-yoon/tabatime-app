@@ -28,6 +28,10 @@
     <!--exercise-->
     <string name="exercise_stop">앱에서 나가면 운동 일시 정지</string>
     <string name="total_num">&#160;/ %1$s</string>
+    <string name="exercise_ready_title">준비</string>
+    <string name="exercise_ready">운동 준비</string>
+    <string name="exercising">운동</string>
+    <string name="exercise_rest">휴식</string>
     <!--exercise-->
 
 </resources>

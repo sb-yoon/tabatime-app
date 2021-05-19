@@ -236,4 +236,18 @@ public class CommonUtil {
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
+
+    public static String getTime(int cnt) {
+        int hour, min, sec;
+        sec = cnt;
+        min = sec / 60;
+        hour = min / 60;
+        sec = sec % 60;
+        min = min % 60;
+        if (hour > 0) {
+            return String.format("%02d", hour) + ":" + String.format("%02d", min) + ":" + String.format("%02d", sec);
+        } else {
+            return String.format("%02d", min) + ":" + String.format("%02d", sec);
+        }
+    }
 }

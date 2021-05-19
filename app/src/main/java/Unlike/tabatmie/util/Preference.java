@@ -9,6 +9,13 @@ public class Preference {
     private final String PREF_NAME = "unlike.tabatmie.pref";
     private final String VER_NAME = "unlike.tabatmie.ver";
 
+    public static final int D_EXERCISE = 30;
+    public static final int D_REST = 10;
+    public static final int D_SET = 5;
+    public static final int D_ROUND = 1;
+    public static final int D_ROUND_RESET = 10;
+    public static final String D_SOUND = "일반";
+
     public static String UID = "uid";
     public static String EMAIL = "email";
 
@@ -132,7 +139,6 @@ public class Preference {
         editor.apply();
 //        }
     }
-
 
 
 }
