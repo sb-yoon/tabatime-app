@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".util.Applications"
         android:allowBackup="true"
@@ -25,15 +27,6 @@
         </activity>
 
         <activity
-            android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Tabatime.NoActionBar" />
-
-        <activity
-            android:name=".activity.ExerciseActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -47,6 +40,23 @@
                     android:scheme="@string/kakao_app_key_man" />
             </intent-filter>
         </activity>
-    </application>
 
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Tabatime.NoActionBar" />
+
+        <activity
+            android:name=".activity.ExerciseActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".service.ExerciseService"
+            android:enabled="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="Unlike.tabatmie.service" />
+            </intent-filter>
+        </service>
+    </application>
 </manifest>

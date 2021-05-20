@@ -96,7 +96,9 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         btn_exercise_out.setOnClickListener(this);
 
         progressbar.setMax(rest);
-        progressbar.setMax(70);
+        progressbar.setProgress(5);
+
+
     }
 
     public void firstStep() {
@@ -135,5 +137,15 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
