@@ -22,6 +22,7 @@
     <string name="title_round">라운드</string>
     <string name="title_round_reset">라운드 초기화</string>
     <string name="title_sound">사운드</string>
+    <string name="sound_off">음소거</string>
     <string name="round">%1$sX</string>
     <!--main-->
 
