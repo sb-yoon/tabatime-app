@@ -39,8 +39,9 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         init();
 
         Intent intent = getIntent();
-        if (intent.getAction() != null && !intent.getAction().isEmpty() && intent.getAction().equals("login")) {
+        if (intent != null && intent.getAction() != null && intent.getAction().equals("login")) {
             btn_login.setVisibility(View.VISIBLE);
+            setIntent(new Intent().setAction(null));
         } else {
             btn_login.setVisibility(View.GONE);
             TimerTask task = new TimerTask() {

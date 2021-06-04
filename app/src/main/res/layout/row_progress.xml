@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_cnt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/nexon_lv_2_gothic"
+        android:includeFontPadding="false"
+        android:text="177"
+        android:textColor="@color/hint_gray"
+        android:textSize="24dp"
+        android:textStyle="bold" />
+</RelativeLayout>

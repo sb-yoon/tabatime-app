@@ -22,6 +22,7 @@ public class Preference {
     public static String UID = "uid";
     public static String EMAIL = "email";
 
+    public static String EXERCISE_TIME = "exercise_time";
     public static String EXERCISE = "exercise";
     public static String REST = "rest";
     public static String SET = "set";
@@ -29,6 +30,8 @@ public class Preference {
     public static String ROUND_RESET = "round_reset";
     public static String SOUND = "sound";
     public static String SOUND_TYPE = "sound_type";
+
+    public static String IS_EXERCISE_PAUSE = "is_exercise_pause";
 
     private static Context context;
 

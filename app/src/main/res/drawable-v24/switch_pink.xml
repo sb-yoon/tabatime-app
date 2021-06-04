@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/switch_pink_on" android:state_checked="true" />
-    <item android:drawable="@drawable/switch_pink_off" android:state_checked="false" />
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+
+            <corners android:radius="8.5dp" />
+
+            <size android:width="36dp" android:height="18dp" />
+
+            <solid android:color="@color/color_lightorange" />
+
+            <stroke android:width="4dp" android:color="@color/transparent" />
+        </shape>
+    </item>
+    <item android:state_checked="false">
+        <shape android:shape="rectangle">
+
+            <corners android:radius="8.5dp" />
+
+            <size android:width="36dp" android:height="18dp" />
+
+            <solid android:color="@color/light_gray" />
+
+            <stroke android:width="4dp" android:color="@color/transparent" />
+        </shape>
+    </item>
 </selector>

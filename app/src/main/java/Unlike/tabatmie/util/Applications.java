@@ -22,8 +22,6 @@ public class Applications extends Application {
 
     public static Context context;
 
-    private static volatile Applications instance = null;
-
     public Applications() {
         super();
     }
@@ -31,8 +29,6 @@ public class Applications extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        instance = this;
 
         context = getApplicationContext();
         dbHelper = new TabatimeDBHelper(getApplicationContext());

@@ -6,14 +6,6 @@
     android:background="@color/main"
     tools:context=".activity.SplashActivity">
 
-    <Button
-        android:id="@+id/btn_nLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:text="@string/nLogin"
-        android:visibility="gone" />
-
     <ImageView
         android:layout_width="175dp"
         android:layout_height="35dp"
@@ -48,7 +40,7 @@
             android:includeFontPadding="false"
             android:text="@string/kLogin"
             android:textColor="#381f1f"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textStyle="normal" />
     </RelativeLayout>
 </RelativeLayout>

@@ -169,22 +169,29 @@
         android:layout_above="@id/layer_action"
         android:layout_below="@id/layer_top"
         android:layout_marginLeft="56dp"
+        android:gravity="center"
         android:layout_marginRight="56dp">
 
-        <com.dinuscxj.progressbar.CircleProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="248dp"
-            android:layout_height="248dp"
-            android:layout_centerInParent="true"
-            app:progress_background_color="@color/transparent"
-            app:progress_end_color="#c4c6e5"
-            app:progress_shader="sweep"
-            app:progress_start_color="#ebecf3"
-            app:progress_start_degree="-90"
-            app:progress_stroke_cap="round"
-            app:progress_stroke_width="8dp"
-            app:progress_style="solid_line"
-            app:progress_text_color="@color/transparent" />
+        <LinearLayout
+            android:id="@+id/layer_progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true">
+
+            <com.dinuscxj.progressbar.CircleProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:progress_background_color="@color/transparent"
+                app:progress_end_color="#c4c6e5"
+                app:progress_shader="sweep"
+                app:progress_start_color="#ebecf3"
+                app:progress_start_degree="-90"
+                app:progress_stroke_cap="round"
+                app:progress_stroke_width="8dp"
+                app:progress_style="solid_line"
+                app:progress_text_color="@color/transparent" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -225,7 +232,7 @@
         android:layout_height="64dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="57dp"
+        android:layout_marginBottom="67dp"
         android:background="@drawable/layer_white_circle"
         android:elevation="20dp">
 
@@ -273,7 +280,7 @@
         android:layout_height="42dp"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="42dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="78dp"
         android:layout_toLeftOf="@id/layer_action"
         android:background="@drawable/layer_white_circle_42"
         android:elevation="20dp">
@@ -300,7 +307,7 @@
         android:layout_height="42dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="42dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="78dp"
         android:layout_toRightOf="@id/layer_action"
         android:background="@drawable/layer_white_circle_42"
         android:elevation="20dp"

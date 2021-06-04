@@ -2,6 +2,7 @@ package Unlike.tabatmie.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int round = Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND);
         int round_reset = Applications.preference.getValue(Preference.ROUND_RESET, Preference.D_ROUND_RESET);
         int exercise_time = (exercise + rest) * set * round - rest;
+        Applications.preference.put(Preference.EXERCISE_TIME, exercise_time);
 
         tv_exercise_time.setText(CommonUtil.getTime(exercise_time));
         tv_exercise.setText(CommonUtil.getTime(exercise));
@@ -114,9 +116,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_set.setText(set + "");
         tv_round.setText(getResources().getString(R.string.round, round + ""));
         tv_round_reset.setText(CommonUtil.getTime(round_reset));
-        tv_sound.setText(Applications.preference.getValue(Preference.SOUND, "일반음"));
-    }
+        if (Applications.preference.getValue(Preference.SOUND, Preference.SOUND_ON).equals(Preference.SOUND_ON)) {
+            tv_sound.setText(Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND_TYPE));
+        } else {
+            tv_sound.setText(getResources().getString(R.string.sound_off));
+        }
 
+        try {
+            Intent intent = getIntent();
+            if (intent != null && intent.getAction() != null && intent.getAction().equals("login")) {
+                goLogin();
+                setIntent(new Intent().setAction(null));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @Override
@@ -133,11 +148,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 goExercise();
                 break;
             case R.id.btn_exercise:
+                goProgress(getResources().getString(R.string.title_exercise));
+                break;
             case R.id.btn_rest:
+                goProgress(getResources().getString(R.string.title_rest));
+                break;
             case R.id.btn_set:
+                goProgress(getResources().getString(R.string.title_set));
+                break;
             case R.id.btn_round:
+                goProgress(getResources().getString(R.string.title_round));
+                break;
             case R.id.btn_round_reset:
+                goProgress(getResources().getString(R.string.title_round_reset));
+                break;
             case R.id.btn_sound:
+
                 break;
         }
     }
@@ -149,7 +175,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void goExercise() {
-        Intent goLogin = new Intent(MainActivity.this, ExerciseActivity.class);
-        startActivity(goLogin);
+        Intent goExercise = new Intent(MainActivity.this, ExerciseActivity.class);
+        startActivity(goExercise);
+    }
+
+    public void goProgress(String title) {
+        Intent goProgress = new Intent(MainActivity.this, ProgressActivity.class);
+        goProgress.putExtra("title", title);
+        startActivity(goProgress);
     }
 }

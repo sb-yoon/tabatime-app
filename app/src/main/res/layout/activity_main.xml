@@ -67,7 +67,7 @@
                     android:layout_marginTop="42dp"
                     android:fontFamily="@font/nexon_lv_2_gothic"
                     android:includeFontPadding="false"
-                    android:text="운동시간"
+                    android:text="@string/exercise_time"
                     android:textColor="@color/light_gray"
                     android:textSize="14dp"
                     android:textStyle="normal" />
