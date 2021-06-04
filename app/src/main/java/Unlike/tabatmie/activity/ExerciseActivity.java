@@ -132,7 +132,9 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onGlobalLayout() {
                 int w = getWidth();
-                layer_progressbar.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, w));
+                RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, w);
+                param.addRule(RelativeLayout.CENTER_IN_PARENT,-1);
+                layer_progressbar.setLayoutParams(param);
             }
         });
 
