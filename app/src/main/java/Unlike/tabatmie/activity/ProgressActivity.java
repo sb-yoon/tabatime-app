@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import Unlike.tabatmie.Dialog.TabatimeDialog;
 import Unlike.tabatmie.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +29,7 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
 
     @BindView(R.id.btn_self)
     RelativeLayout btn_self;
+    String type;
 
     @BindView(R.id.btn_apply)
     TextView btn_apply;
@@ -50,8 +52,9 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
         try {
             String getTitle = getIntent().getStringExtra("title");
             tv_title.setText(getTitle);
-            String getCntTitle = getIntent().getStringExtra("cnt_title");
+            String getCntTitle = getIntent().getStringExtra("desc");
             tv_cnt_title.setText(getCntTitle);
+            type = getIntent().getStringExtra("dialog_type");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,6 +68,29 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.btn_self:
+                int dialog_type = Integer.parseInt(type);
+                TabatimeDialog dialog = new TabatimeDialog(this);
+                dialog.setDialogType(dialog_type);
+                if (dialog_type == 1) {
+                    dialog.setTitle(getResources().getString(R.string.dialog_title_time));
+                    dialog.seteditInfo(getResources().getString(R.string.time_limit));
+                } else {
+                    dialog.setTitle(getResources().getString(R.string.dialog_title_cnt));
+                    dialog.seteditInfo(getResources().getString(R.string.cnt_limit));
+                }
+                dialog.closeClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.applyClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+                dialog.show();
                 break;
             case R.id.btn_apply:
                 finish();

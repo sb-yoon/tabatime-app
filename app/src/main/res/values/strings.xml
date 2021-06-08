@@ -47,12 +47,16 @@
 
     <!--progress-->
     <string name="self">직접입력</string>
+    <string name="desc_sec">초</string>
+    <string name="desc_cnt">횟수</string>
     <!--progress-->
 
     <!--dialog-->
     <string name="apply">적용</string>
-    <string name="title_time">시간을 입력하세요.</string>
-    <string name="title_cnt">횟수를 입력하세요.</string>
+    <string name="cancel">취소</string>
+    <string name="ok">확인</string>
+    <string name="dialog_title_time">시간을 입력하세요.</string>
+    <string name="dialog_title_cnt">횟수를 입력하세요.</string>
     <string name="min">분</string>
     <string name="sec">초</string>
     <string name="cnt">회</string>

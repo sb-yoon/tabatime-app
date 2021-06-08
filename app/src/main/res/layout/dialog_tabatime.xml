@@ -1,125 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/layer_white_round"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical"
-    android:paddingTop="32dp">
+    android:focusableInTouchMode="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="18dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_height="wrap_content"
+        android:background="@drawable/layer_white_round"
+        android:orientation="vertical"
+        android:paddingTop="32dp">
 
-        <TextView
-            android:id="@+id/tv_dialog_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:fontFamily="@font/nexon_lv_2_gothic"
-            android:text=""
-            android:textColor="@color/defalut_black"
-            android:textSize="16sp"
-            android:textStyle="normal" />
-
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_cancel" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp">
-
-        <LinearLayout
-            android:id="@+id/layer_time_edit"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:visibility="visible">
+            android:layout_height="18dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
 
-            <EditText
-                android:id="@+id/et_min"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/edit_line"
+            <TextView
+                android:id="@+id/tv_dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:fontFamily="@font/nexon_lv_2_gothic"
-                android:gravity="center"
-                android:includeFontPadding="false"
-                android:inputType="number"
-                android:nextFocusRight="@id/et_sec"
+                android:text=""
                 android:textColor="@color/defalut_black"
                 android:textSize="16dp"
                 android:textStyle="normal" />
 
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_cancel"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/layer_edits"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="16dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/layer_time_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/et_min"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_line"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:nextFocusRight="@id/et_sec"
+                    android:textColor="@color/defalut_black"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="@string/min"
+                    android:textColor="@color/defalut_black"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/et_sec"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_line"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:textColor="@color/defalut_black"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="@string/sec"
+                    android:textColor="@color/defalut_black"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layer_cnt_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/et_cnt"
+                    android:layout_width="114dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edit_line"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:textColor="@color/defalut_black"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="@string/cnt"
+                    android:textColor="@color/defalut_black"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_edit_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layer_time_edit"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/nexon_lv_2_gothic"
+            android:includeFontPadding="false"
+            android:text=""
+            android:textColor="@color/light_gray"
+            android:textSize="14dp"
+            android:textStyle="normal"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/btn_apply"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/layer_dailog_apply"
+            android:visibility="gone">
+
             <TextView
+                android:id="@+id/tv_apply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_centerInParent="true"
                 android:fontFamily="@font/nexon_lv_2_gothic"
                 android:includeFontPadding="false"
-                android:text="@string/min"
-                android:textColor="@color/defalut_black"
-                android:textSize="16sp"
-                android:textStyle="normal" />
+                android:text="@string/apply"
+                android:textColor="@color/light_gray"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
-            <View
-                android:layout_width="16dp"
-                android:layout_height="match_parent" />
+        <LinearLayout
+            android:id="@+id/layer_btns"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="52dp"
+            android:orientation="horizontal"
+            android:visibility="visible">
 
-            <EditText
-                android:id="@+id/et_sec"
+            <RelativeLayout
+                android:id="@+id/btn_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/edit_line" />
+                android:background="@drawable/layer_dailog_cancel">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:fontFamily="@font/nexon_lv_2_gothic"
-                android:includeFontPadding="false"
-                android:text="@string/sec"
-                android:textColor="@color/defalut_black"
-                android:textSize="16sp"
-                android:textStyle="normal" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/layer_cnt"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <EditText
-                android:layout_width="114dp"
+            <RelativeLayout
+                android:id="@+id/btn_ok"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/edit_line" />
+                android:layout_weight="1"
+                android:background="@drawable/layer_dailog_ok">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:fontFamily="@font/nexon_lv_2_gothic"
-
-                android:includeFontPadding="false"
-                android:text="@string/cnt"
-                android:textColor="@color/defalut_black"
-                android:textSize="16sp"
-                android:textStyle="normal" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="@string/ok"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
         </LinearLayout>
-    </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginRight="10dp" />
+
+</RelativeLayout>

@@ -148,19 +148,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 goExercise();
                 break;
             case R.id.btn_exercise:
-                goProgress(getResources().getString(R.string.title_exercise));
+                goProgress(getResources().getString(R.string.title_exercise), getResources().getString(R.string.desc_sec), "1");
                 break;
             case R.id.btn_rest:
-                goProgress(getResources().getString(R.string.title_rest));
+                goProgress(getResources().getString(R.string.title_rest), getResources().getString(R.string.desc_sec), "1");
                 break;
             case R.id.btn_set:
-                goProgress(getResources().getString(R.string.title_set));
+                goProgress(getResources().getString(R.string.title_set), getResources().getString(R.string.desc_cnt), "2");
                 break;
             case R.id.btn_round:
-                goProgress(getResources().getString(R.string.title_round));
+                goProgress(getResources().getString(R.string.title_round), getResources().getString(R.string.desc_cnt), "2");
                 break;
             case R.id.btn_round_reset:
-                goProgress(getResources().getString(R.string.title_round_reset));
+                goProgress(getResources().getString(R.string.title_round_reset), getResources().getString(R.string.desc_sec), "1");
                 break;
             case R.id.btn_sound:
 
@@ -179,9 +179,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(goExercise);
     }
 
-    public void goProgress(String title) {
+    public void goProgress(String title, String desc, String type) {
         Intent goProgress = new Intent(MainActivity.this, ProgressActivity.class);
         goProgress.putExtra("title", title);
+        goProgress.putExtra("desc", desc);
+        goProgress.putExtra("dialog_type", type);
         startActivity(goProgress);
     }
 }

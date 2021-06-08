@@ -54,7 +54,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
     TextView tv_round_total_num;
 
     @BindView(R.id.layer_progressbar)
-    LinearLayout layer_progressbar;
+    RelativeLayout layer_progressbar;
     @BindView(R.id.progressbar)
     CircleProgressBar progressbar;
     @BindView(R.id.tv_time)

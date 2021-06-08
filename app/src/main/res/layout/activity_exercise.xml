@@ -172,11 +172,17 @@
         android:gravity="center"
         android:layout_marginRight="56dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/layer_progressbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:background="@drawable/layer_progressbar"/>
 
             <com.dinuscxj.progressbar.CircleProgressBar
                 android:id="@+id/progressbar"
@@ -191,7 +197,7 @@
                 app:progress_stroke_width="8dp"
                 app:progress_style="solid_line"
                 app:progress_text_color="@color/transparent" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
