@@ -187,7 +187,7 @@ public class TabatimeDialog extends Dialog {
                         maximum = 20;
                         cnt = etNum;
                     }
-                    6
+
                     if (minimum > etNum || maximum < etNum || (dialogType == 1 && getEtMin() == 0 && getEtSec() == 0)) {
                         isEnabled = true;
                         et.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.edit_error));
