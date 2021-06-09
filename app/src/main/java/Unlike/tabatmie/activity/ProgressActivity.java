@@ -8,8 +8,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import Unlike.tabatmie.Dialog.TabatimeDialog;
 import Unlike.tabatmie.R;
+import Unlike.tabatmie.dialog.TabatimeDialog;
+import Unlike.tabatmie.util.Applications;
+import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -87,7 +89,17 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
                 dialog.applyClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        int min = dialog.getEtMin();
+                        int sec = dialog.getEtSec();
+                        int exercise;
+                        if (min == 0) {
+                            exercise = sec;
+                        } else {
+                            exercise = (min * 60) + sec;
+                        }
+                        Applications.preference.put(Preference.EXERCISE, exercise);
+                        dialog.dismiss();
+                        finish();
                     }
                 });
                 dialog.show();

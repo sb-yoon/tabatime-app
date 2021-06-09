@@ -1,4 +1,4 @@
-package Unlike.tabatmie.Dialog;
+package Unlike.tabatmie.dialog;
 
 
 import android.app.Dialog;
@@ -46,6 +46,7 @@ public class TabatimeDialog extends Dialog {
     LinearLayout layer_cnt_edit;
     @BindView(R.id.et_cnt)
     EditText et_cnt;
+    int min = -1, sec = -1, cnt;
 
     @BindView(R.id.tv_edit_info)
     TextView tv_edit_info;
@@ -132,15 +133,17 @@ public class TabatimeDialog extends Dialog {
         btn_cancel.setOnClickListener(cancelClickListener);
         btn_ok.setOnClickListener(okClickListener);
 
-        setfilter(et_min);
-        setfilter(et_sec);
-        setfilter(et_cnt);
+        setfilter(et_min, 1);
+        setfilter(et_sec, 2);
+        setfilter(et_cnt, 3);
     }
 
     @Override
     public void dismiss() {
         try {
             setBasicDialog();
+            title = "";
+            edit_info = "";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -158,35 +161,93 @@ public class TabatimeDialog extends Dialog {
         layer_btns.setVisibility(View.VISIBLE);
     }
 
-    public void setfilter(EditText et) {
+    public void setfilter(EditText et, int type) {
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 boolean isEnabled = false;
-                if (et.getText().toString().length() > 0) {
-                    isEnabled = true;
-                }
-                if (dialogType == 1) {
-                    if (isEnabled) {
-                        tv_apply.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-                        btn_apply.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.layer_dailog_apply_active));
-                    } else {
-                        tv_apply.setTextColor(ContextCompat.getColor(getContext(), R.color.light_gray));
-                        btn_apply.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.layer_dailog_apply));
+                String etStr = et.getText().toString();
+                if (!etStr.equals("")) {
+                    int etNum = Integer.parseInt(etStr);
+                    int minimum = 0, maximum = 0;
+                    if (type == 1) {
+                        minimum = 0;
+                        maximum = 3;
+                        min = etNum;
+                    } else if (type == 2) {
+                        minimum = 0;
+                        maximum = 59;
+                        sec = etNum;
+                    } else if (type == 3) {
+                        minimum = 1;
+                        maximum = 20;
+                        cnt = etNum;
                     }
+                    6
+                    if (minimum > etNum || maximum < etNum || (dialogType == 1 && getEtMin() == 0 && getEtSec() == 0)) {
+                        isEnabled = true;
+                        et.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.edit_error));
+                    } else {
+                        isEnabled = false;
+                        et.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.edit_line));
+                    }
+                } else {
+                    et.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.edit_line));
+                }
+
+                if (isEnabled) {
+                    tv_apply.setTextColor(ContextCompat.getColor(getContext(), R.color.light_gray));
+                    btn_apply.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.layer_dailog_apply));
+                } else {
+                    tv_apply.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                    btn_apply.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.layer_dailog_apply_active));
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         };
         et.addTextChangedListener(watcher);
+    }
+
+    public int getEtMin() {
+        try {
+            if (et_min.getText().toString().length() > 0) {
+                if (Integer.parseInt(et_min.getText().toString()) == -1) {
+                    return 0;
+                } else {
+                    return Integer.parseInt(et_min.getText().toString());
+                }
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public int getEtSec() {
+        try {
+            if (et_sec.getText().toString().length() > 0) {
+                if (Integer.parseInt(et_sec.getText().toString()) == -1) {
+                    return 0;
+                } else {
+                    return Integer.parseInt(et_sec.getText().toString());
+                }
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public int getEtCnt() {
+        return Integer.parseInt(et_cnt.getText().toString());
     }
 }
