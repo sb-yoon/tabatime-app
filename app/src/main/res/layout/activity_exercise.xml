@@ -50,13 +50,12 @@
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-            <androidx.appcompat.widget.SwitchCompat
+            <Switch
                 android:id="@+id/switch_pause"
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:checked="false"
                 android:thumb="@drawable/switch_thumb"
                 android:track="@drawable/switch_pink"
                 app:switchMinWidth="38dp" />
@@ -169,8 +168,8 @@
         android:layout_above="@id/layer_action"
         android:layout_below="@id/layer_top"
         android:layout_marginLeft="56dp"
-        android:gravity="center"
-        android:layout_marginRight="56dp">
+        android:layout_marginRight="56dp"
+        android:gravity="center">
 
         <RelativeLayout
             android:id="@+id/layer_progressbar"
@@ -182,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="4dp"
-                android:background="@drawable/layer_progressbar"/>
+                android:background="@drawable/layer_progressbar" />
 
             <com.dinuscxj.progressbar.CircleProgressBar
                 android:id="@+id/progressbar"

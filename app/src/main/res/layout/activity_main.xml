@@ -486,6 +486,7 @@
                     android:background="@color/bg_gray" />
 
                 <LinearLayout
+                    android:id="@+id/btn_record"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:gravity="center_vertical"
@@ -503,13 +504,14 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nexon_lv_2_gothic_medium"
                         android:includeFontPadding="false"
-                        android:text="@string/menu_history"
+                        android:text="@string/menu_record"
                         android:textColor="@color/defalut_black"
                         android:textSize="14dp"
                         android:textStyle="normal" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/btn_stat"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:gravity="center_vertical"
@@ -527,13 +529,14 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nexon_lv_2_gothic_medium"
                         android:includeFontPadding="false"
-                        android:text="@string/menu_graph"
+                        android:text="@string/menu_stat"
                         android:textColor="@color/defalut_black"
                         android:textSize="14dp"
                         android:textStyle="normal" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/btn_setting"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:gravity="center_vertical"

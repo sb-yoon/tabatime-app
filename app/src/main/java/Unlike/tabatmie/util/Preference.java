@@ -14,10 +14,9 @@ public class Preference {
     public static final int D_SET = 5;
     public static final int D_ROUND = 1;
     public static final int D_ROUND_RESET = 10;
-    public static final String SOUND_ON = "ON";
-    public static final String SOUND_OFF = "OFF";
-    public static final String D_SOUND_TYPE = "일반";
+    public static final boolean D_SOUND = true;
     public static final int D_READY = 5;
+    public static final boolean D_PAUSE = true;
 
     public static String UID = "uid";
     public static String EMAIL = "email";
@@ -31,7 +30,7 @@ public class Preference {
     public static String SOUND = "sound";
     public static String SOUND_TYPE = "sound_type";
 
-    public static String IS_EXERCISE_PAUSE = "is_exercise_pause";
+    public static String EXERCISE_PAUSE = "is_exercise_pause";
 
     private static Context context;
 

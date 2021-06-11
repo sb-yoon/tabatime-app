@@ -92,7 +92,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                                 if (!user.getKakaoAccount().getEmail().isEmpty()) {
                                     Applications.preference.put(Preference.EMAIL, user.getKakaoAccount().getEmail());
                                 }
-                                goMain(2);
+                                finish();
                             } else {
                                 //login fail
                             }

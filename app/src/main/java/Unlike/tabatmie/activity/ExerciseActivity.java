@@ -10,11 +10,11 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
@@ -40,7 +40,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
     @BindView(R.id.layer_pause)
     RelativeLayout layer_pause;
     @BindView(R.id.switch_pause)
-    SwitchCompat switch_pause;
+    Switch switch_pause;
 
     @BindView(R.id.layer_exercise_num)
     LinearLayout layer_exercise_num;
@@ -113,6 +113,14 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         btn_action.setOnClickListener(this);
         btn_exercise_out.setOnClickListener(this);
 
+        if (Applications.preference.getValue(Preference.EXERCISE_PAUSE, Preference.D_PAUSE)) {
+            isSwitchPause = true;
+            switch_pause.setChecked(true);
+        } else {
+            isSwitchPause = false;
+            switch_pause.setChecked(false);
+        }
+
         ready = Preference.D_READY;
         exercise = Applications.preference.getValue(Preference.EXERCISE, Preference.D_EXERCISE);
         rest = Applications.preference.getValue(Preference.REST, Preference.D_REST);
@@ -133,7 +141,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
             public void onGlobalLayout() {
                 int w = getWidth();
                 RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, w);
-                param.addRule(RelativeLayout.CENTER_IN_PARENT,-1);
+                param.addRule(RelativeLayout.CENTER_IN_PARENT, -1);
                 layer_progressbar.setLayoutParams(param);
             }
         });
@@ -141,7 +149,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         iv_play.setVisibility(View.GONE);
         iv_pause.setVisibility(View.VISIBLE);
 
-        if (Applications.preference.getValue(Preference.SOUND, Preference.SOUND_ON).equals(Preference.SOUND_ON)) {
+        if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
             iv_sound_set.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_volume_white));
         } else {
             iv_sound_set.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_mute_white));
@@ -320,10 +328,10 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.btn_sound:
                 if (btn_sound.isChecked()) {
-                    Applications.preference.put(Preference.SOUND, Preference.SOUND_ON);
+                    Applications.preference.put(Preference.SOUND, true);
                     iv_sound_set.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_volume_white));
                 } else {
-                    Applications.preference.put(Preference.SOUND, Preference.SOUND_OFF);
+                    Applications.preference.put(Preference.SOUND, false);
                     iv_sound_set.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_mute_white));
                 }
                 break;
@@ -343,9 +351,15 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
             case R.id.btn_exercise_out:
-                finish();
+                onBackPressed();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     @Override

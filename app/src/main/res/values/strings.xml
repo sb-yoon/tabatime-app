@@ -10,8 +10,8 @@
 
     <!--main-->
     <string name="login">로그인</string>
-    <string name="menu_history">기록</string>
-    <string name="menu_graph">통계</string>
+    <string name="menu_record">기록</string>
+    <string name="menu_stat">통계</string>
     <string name="menu_setting">설정</string>
 
     <string name="exercise_time">운동시간</string>
@@ -22,9 +22,32 @@
     <string name="title_round">라운드</string>
     <string name="title_round_reset">라운드 초기화</string>
     <string name="title_sound">사운드</string>
+    <string name="sound_on">일반음</string>
     <string name="sound_off">음소거</string>
     <string name="round">%1$sX</string>
     <!--main-->
+
+    <!--record-->
+    <!--record-->
+
+    <!--stat-->
+    <string name="user_now">회원님은 현재</string>
+    <string name="lank">상위 %1$s%</string>
+    <string name="total_cnt">총 운동 횟수</string>
+    <string name="total_time">총 운동 횟수</string>
+    <string name="no_stat">운동을 시작하여 랭킹에 도전해보세요.</string>
+    <!--stat-->
+
+    <!--setting-->
+    <string name="set_sound">사운드 설정</string>
+    <string name="set_sound_on">일반</string>
+    <string name="exercise_pause">앱에서 나가면 운동 일시 정지</string>
+    <string name="app_info">정보</string>
+    <string name="version">현재버전</string>
+    <string name="terms">약관 및 정책</string>
+    <string name="app_id">계정</string>
+    <string name="logout">로그아웃</string>
+    <!--setting-->
 
     <!--exercise-->
     <string name="exercise_stop">앱에서 나가면 운동 일시 정지</string>

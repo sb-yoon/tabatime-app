@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="vertical"
+    tools:context=".activity.SettingActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="11dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow_left_navy" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/nexon_lv_2_gothic"
+            android:includeFontPadding="false"
+            android:text="@string/menu_setting"
+            android:textColor="@color/defalut_black"
+            android:textSize="16dp"
+            android:textStyle="normal" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="24dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/nexon_lv_2_gothic_medium"
+            android:includeFontPadding="false"
+            android:text="@string/set_sound"
+            android:textColor="@color/defalut_black"
+            android:textSize="14dp"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/layer_gray_round_21"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/btn_sound_on"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/layer_main_round_21">
+
+                <TextView
+                    android:id="@+id/tv_sound_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="@string/set_sound_on"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btn_sound_off"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_sound_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:includeFontPadding="false"
+                    android:text="@string/sound_off"
+                    android:textColor="@color/defalut_black"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/layer_gray_round"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/nexon_lv_2_gothic"
+                android:includeFontPadding="false"
+                android:text="@string/exercise_pause"
+                android:textColor="@color/defalut_black"
+                android:textSize="16dp"
+                android:textStyle="normal" />
+
+            <Switch
+                android:id="@+id/switch_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:thumb="@drawable/switch_thumb"
+                android:track="@drawable/switch_main"
+                app:switchMinWidth="38dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="24dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nexon_lv_2_gothic_medium"
+            android:includeFontPadding="false"
+            android:text="@string/app_info"
+            android:textColor="@color/defalut_black"
+            android:textSize="14dp"
+            android:textStyle="normal" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nexon_lv_2_gothic"
+                android:includeFontPadding="false"
+                android:text="@string/version"
+                android:textColor="@color/defalut_black"
+                android:textSize="16dp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tv_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/nexon_lv_2_gothic"
+                android:includeFontPadding="false"
+                android:text=""
+                android:textColor="@color/defalut_black"
+                android:textSize="16dp"
+                android:textStyle="normal" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15.5dp"
+            android:layout_marginBottom="15.5dp"
+            android:background="@color/light_gray" />
+
+        <TextView
+            android:id="@+id/btn_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nexon_lv_2_gothic"
+            android:includeFontPadding="false"
+            android:text="@string/terms"
+            android:textColor="@color/defalut_black"
+            android:textSize="16dp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:fontFamily="@font/nexon_lv_2_gothic_medium"
+            android:includeFontPadding="false"
+            android:text="@string/app_id"
+            android:textColor="@color/defalut_black"
+            android:textSize="14dp"
+            android:textStyle="normal" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp">
+
+            <TextView
+                android:id="@+id/btn_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nexon_lv_2_gothic"
+                android:includeFontPadding="false"
+                android:text="@string/logout"
+                android:textColor="@color/defalut_black"
+                android:textSize="16dp"
+                android:textStyle="normal"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@drawable/layer_yellow_round"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="24dp"
+                    android:src="@drawable/ic_kakao" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/nexon_lv_2_gothic_medium"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:text="@string/kLogin"
+                    android:textColor="#381f1f"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

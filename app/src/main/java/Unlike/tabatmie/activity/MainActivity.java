@@ -2,8 +2,8 @@ package Unlike.tabatmie.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,6 +32,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tv_login;
     @BindView(R.id.tv_mail)
     TextView tv_mail;
+    @BindView(R.id.btn_record)
+    LinearLayout btn_record;
+    @BindView(R.id.btn_stat)
+    LinearLayout btn_stat;
+    @BindView(R.id.btn_setting)
+    LinearLayout btn_setting;
 
     @BindView(R.id.btn_start_exercise)
     RelativeLayout btn_start_exercise;
@@ -78,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btn_menu.setOnClickListener(this);
         tv_login.setOnClickListener(this);
+        btn_record.setOnClickListener(this);
+        btn_stat.setOnClickListener(this);
+        btn_setting.setOnClickListener(this);
         btn_start_exercise.setOnClickListener(this);
         btn_exercise.setOnClickListener(this);
         btn_rest.setOnClickListener(this);
@@ -116,8 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_set.setText(set + "");
         tv_round.setText(getResources().getString(R.string.round, round + ""));
         tv_round_reset.setText(CommonUtil.getTime(round_reset));
-        if (Applications.preference.getValue(Preference.SOUND, Preference.SOUND_ON).equals(Preference.SOUND_ON)) {
-            tv_sound.setText(Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND_TYPE));
+        if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
+            tv_sound.setText(getResources().getString(R.string.sound_on));
         } else {
             tv_sound.setText(getResources().getString(R.string.sound_off));
         }
@@ -144,23 +153,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.tv_login:
                 goLogin();
                 break;
+            case R.id.btn_record:
+                goRecord();
+                break;
+            case R.id.btn_stat:
+                goStat();
+                break;
+            case R.id.btn_setting:
+                goSetting();
+                break;
             case R.id.btn_start_exercise:
                 goExercise();
                 break;
             case R.id.btn_exercise:
-                goProgress(getResources().getString(R.string.title_exercise), getResources().getString(R.string.desc_sec), "1");
+                goProgress("exercise", "1");
                 break;
             case R.id.btn_rest:
-                goProgress(getResources().getString(R.string.title_rest), getResources().getString(R.string.desc_sec), "1");
+                goProgress("rest", "1");
                 break;
             case R.id.btn_set:
-                goProgress(getResources().getString(R.string.title_set), getResources().getString(R.string.desc_cnt), "2");
+                goProgress("set", "2");
                 break;
             case R.id.btn_round:
-                goProgress(getResources().getString(R.string.title_round), getResources().getString(R.string.desc_cnt), "2");
+                goProgress("round", "2");
                 break;
             case R.id.btn_round_reset:
-                goProgress(getResources().getString(R.string.title_round_reset), getResources().getString(R.string.desc_sec), "1");
+                goProgress("round_reset", "1");
                 break;
             case R.id.btn_sound:
 
@@ -174,16 +192,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(goLogin);
     }
 
+    public void goRecord() {
+        Intent goLogin = new Intent(MainActivity.this, RecordActivity.class);
+        startActivity(goLogin);
+    }
+
+    public void goStat() {
+        Intent goLogin = new Intent(MainActivity.this, StatActivity.class);
+        startActivity(goLogin);
+    }
+
+    public void goSetting() {
+        Intent goLogin = new Intent(MainActivity.this, SettingActivity.class);
+        startActivity(goLogin);
+    }
+
     public void goExercise() {
         Intent goExercise = new Intent(MainActivity.this, ExerciseActivity.class);
         startActivity(goExercise);
     }
 
-    public void goProgress(String title, String desc, String type) {
+    public void goProgress(String title, String dialog_type) {
         Intent goProgress = new Intent(MainActivity.this, ProgressActivity.class);
         goProgress.putExtra("title", title);
-        goProgress.putExtra("desc", desc);
-        goProgress.putExtra("dialog_type", type);
+        goProgress.putExtra("dialog_type", dialog_type);
         startActivity(goProgress);
     }
 }

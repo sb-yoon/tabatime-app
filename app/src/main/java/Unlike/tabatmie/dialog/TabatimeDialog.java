@@ -46,7 +46,6 @@ public class TabatimeDialog extends Dialog {
     LinearLayout layer_cnt_edit;
     @BindView(R.id.et_cnt)
     EditText et_cnt;
-    int min = -1, sec = -1, cnt;
 
     @BindView(R.id.tv_edit_info)
     TextView tv_edit_info;
@@ -133,9 +132,9 @@ public class TabatimeDialog extends Dialog {
         btn_cancel.setOnClickListener(cancelClickListener);
         btn_ok.setOnClickListener(okClickListener);
 
-        setfilter(et_min, 1);
-        setfilter(et_sec, 2);
-        setfilter(et_cnt, 3);
+        setfilter(et_min);
+        setfilter(et_sec);
+        setfilter(et_cnt);
     }
 
     @Override
@@ -161,7 +160,7 @@ public class TabatimeDialog extends Dialog {
         layer_btns.setVisibility(View.VISIBLE);
     }
 
-    public void setfilter(EditText et, int type) {
+    public void setfilter(EditText et) {
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -170,25 +169,26 @@ public class TabatimeDialog extends Dialog {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 boolean isEnabled = false;
+                boolean isError = false;
                 String etStr = et.getText().toString();
                 if (!etStr.equals("")) {
                     int etNum = Integer.parseInt(etStr);
-                    int minimum = 0, maximum = 0;
-                    if (type == 1) {
-                        minimum = 0;
-                        maximum = 3;
-                        min = etNum;
-                    } else if (type == 2) {
-                        minimum = 0;
-                        maximum = 59;
-                        sec = etNum;
-                    } else if (type == 3) {
-                        minimum = 1;
-                        maximum = 20;
-                        cnt = etNum;
+                    if (dialogType == 1) {
+                        String time = String.format("%02d", getEtMin()) + String.format("%02d", getEtSec());
+                        if (Integer.parseInt(time) >= 5 && Integer.parseInt(time) <= 300 && getEtSec() < 60) {
+                            isError = false;
+                        } else {
+                            isError = true;
+                        }
+                    } else if (dialogType == 2) {
+                        if (etNum >= 1 && etNum <= 20) {
+                            isError = false;
+                        } else {
+                            isError = true;
+                        }
                     }
 
-                    if (minimum > etNum || maximum < etNum || (dialogType == 1 && getEtMin() == 0 && getEtSec() == 0)) {
+                    if (isError) {
                         isEnabled = true;
                         et.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.edit_error));
                     } else {

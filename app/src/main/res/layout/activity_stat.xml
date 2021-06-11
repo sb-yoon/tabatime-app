@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="vertical"
+    tools:context=".activity.StatActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="11dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow_left_navy" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/nexon_lv_2_gothic"
+            android:includeFontPadding="false"
+            android:text="@string/menu_stat"
+            android:textColor="@color/defalut_black"
+            android:textSize="16dp"
+            android:textStyle="normal" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/layer_white_round"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/nexon_lv_2_gothic"
+            android:includeFontPadding="false"
+            android:text="@string/no_stat"
+            android:textColor="@color/defalut_black"
+            android:textSize="16dp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tv_lank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/nexon_lv_2_gothic"
+            android:includeFontPadding="false"
+            android:text="@string/lank"
+            android:textColor="@color/main"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/nexon_lv_2_gothic"
+        android:includeFontPadding="false"
+        android:text="@string/total_cnt"
+        android:textColor="@color/defalut_black"
+        android:textSize="14dp"
+        android:textStyle="normal" />
+
+    <RelativeLayout
+        android:layout_width="167dp"
+        android:layout_height="144dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_total_cnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nexon_lv_2_gothic"
+                android:gravity="center_horizontal"
+                android:includeFontPadding="false"
+                android:text="0"
+                android:textColor="@color/defalut_black"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/nexon_lv_2_gothic"
+                android:includeFontPadding="false"
+                android:text="@string/cnt"
+                android:textColor="@color/defalut_black"
+                android:textSize="14dp"
+                android:textStyle="normal" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@color/light_gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="42dp"
+        android:fontFamily="@font/nexon_lv_2_gothic"
+        android:includeFontPadding="false"
+        android:text="@string/total_time"
+        android:textColor="@color/defalut_black"
+        android:textSize="14dp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/tv_total_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/nexon_lv_2_gothic"
+        android:gravity="center_horizontal"
+        android:includeFontPadding="false"
+        android:text="00 : 00 : 00"
+        android:textColor="@color/defalut_black"
+        android:textSize="32dp"
+        android:textStyle="bold" />
+</LinearLayout>

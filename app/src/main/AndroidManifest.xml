@@ -13,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tabatime">
-
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
@@ -24,7 +23,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Tabatime.NoActionBar" />
+        <activity
+            android:name=".activity.ExerciseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SuccessActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Tabatime.NoActionBar" />
+        <activity
+            android:name=".activity.ProgressActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Tabatime.NoActionBar" />
+        <activity
+            android:name=".activity.RecordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Tabatime.NoActionBar" />
+        <activity
+            android:name=".activity.StatActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Tabatime.NoActionBar" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Tabatime.NoActionBar" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:screenOrientation="portrait">
@@ -39,25 +64,5 @@
                     android:scheme="@string/kakao_app_key_man" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Tabatime.NoActionBar" />
-
-        <activity
-            android:name=".activity.ExerciseActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.SuccessActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Tabatime.NoActionBar" />
-
-        <activity
-            android:name=".activity.ProgressActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Tabatime.NoActionBar" />
     </application>
-
 </manifest>

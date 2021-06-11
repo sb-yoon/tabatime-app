@@ -108,4 +108,10 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(goLogin);
         finish();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
