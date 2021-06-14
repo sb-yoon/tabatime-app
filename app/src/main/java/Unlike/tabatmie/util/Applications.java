@@ -38,10 +38,6 @@ public class Applications extends Application {
         KakaoSdk.init(this, this.getResources().getString(R.string.kakao_app_key));
     }
 
-    public static void fristInit(Activity activity) {
-        ButterKnife.bind(activity);
-    }
-
     public static int getStatusBarHeight(Activity activity) {
         int result = 0;
         int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");

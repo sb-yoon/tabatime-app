@@ -50,14 +50,14 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_success);
 
-        init();
-    }
-
-    public void init() {
         ButterKnife.bind(this);
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        init();
+    }
+
+    public void init() {
         btn_success.setOnClickListener(this);
         layer_finish.setOnClickListener(this);
 

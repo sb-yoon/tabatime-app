@@ -17,6 +17,7 @@ import Unlike.tabatmie.util.Applications;
 import Unlike.tabatmie.util.CommonUtil;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -75,13 +76,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Applications.fristInit(this);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+
         init();
     }
 
     public void init() {
-        setSupportActionBar(toolbar);
-
         btn_menu.setOnClickListener(this);
         tv_login.setOnClickListener(this);
         btn_record.setOnClickListener(this);

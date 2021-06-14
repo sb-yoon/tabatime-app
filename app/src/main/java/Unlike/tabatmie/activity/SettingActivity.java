@@ -15,6 +15,7 @@ import Unlike.tabatmie.R;
 import Unlike.tabatmie.util.Applications;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -49,7 +50,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        Applications.fristInit(this);
+        ButterKnife.bind(this);
+
         init();
     }
 

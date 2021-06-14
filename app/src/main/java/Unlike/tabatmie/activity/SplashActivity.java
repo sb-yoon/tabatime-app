@@ -19,6 +19,7 @@ import Unlike.tabatmie.R;
 import Unlike.tabatmie.util.Applications;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
@@ -35,7 +36,8 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign);
 
-        Applications.fristInit(this);
+        ButterKnife.bind(this);
+
         init();
 
         Intent intent = getIntent();

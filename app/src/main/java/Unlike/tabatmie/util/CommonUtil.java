@@ -31,8 +31,6 @@ import Unlike.tabatmie.BuildConfig;
 
 public class CommonUtil {
 
-    public static final String SERVER_URL = "";
-
     public static String setComma(String number, boolean type, boolean isPlus) {
         try {
             if (number == null || number.equals("")) {

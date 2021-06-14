@@ -90,6 +90,8 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
 
+        ButterKnife.bind(this);
+
         init();
 
         setReady();
@@ -104,8 +106,6 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void init() {
-        ButterKnife.bind(this);
-
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         switch_pause.setOnClickListener(this);

@@ -10,6 +10,7 @@
 
     <color name="main">#5e81f4</color>
     <color name="light_gray">#a2a3b1</color>
+    <color name="stat_gray">#cccccc</color>
     <color name="defalut_black">#2b2c45</color>
     <color name="color_sky_blue">#54bbff</color>
     <color name="color_lightorange">#ffa48f</color>

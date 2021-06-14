@@ -62,12 +62,12 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
 
+        ButterKnife.bind(this);
+
         init();
     }
 
     public void init() {
-        ButterKnife.bind(this);
-
         btn_back.setOnClickListener(this);
         btn_self.setOnClickListener(this);
         btn_apply.setOnClickListener(this);
