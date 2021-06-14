@@ -2,6 +2,7 @@ package Unlike.tabatmie.activity;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ import Unlike.tabatmie.util.Applications;
 import Unlike.tabatmie.util.CommonUtil;
 import Unlike.tabatmie.util.ExerciseTimerPause;
 import Unlike.tabatmie.util.Preference;
+import Unlike.tabatmie.util.SoundPoolPlayer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -74,6 +76,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
     ImageView iv_sound_set;
     @BindView(R.id.btn_exercise_out)
     RelativeLayout btn_exercise_out;
+    private SoundPoolPlayer mPlayer;
 
     private int ready, exercise, rest, set, round, round_reset;
     private int max_set, max_round;
@@ -102,6 +105,9 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         super.onResume();
         if (isSwitchPause && isExerciseStart && !isActionPause) {
             resumeTimer();
+            if (mPlayer != null) {
+                mPlayer.play();
+            }
         }
     }
 
@@ -279,7 +285,22 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onTick(long millisUntilFinished) {
                 long count = millisUntilFinished / 1000;
+                Log.e(TAG, "count : " + count);
                 tv_time.setText(CommonUtil.getTime((int) count));
+                try {
+                    if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND) && count == 3) {
+                        mPlayer = SoundPoolPlayer.create(ExerciseActivity.this, R.raw.countdown);
+                        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mediaPlayer) {
+                                mPlayer = null;
+                            }
+                        });
+                        mPlayer.play();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -328,11 +349,14 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.btn_sound:
                 if (btn_sound.isChecked()) {
-                    Applications.preference.put(Preference.SOUND, true);
-                    iv_sound_set.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_volume_white));
-                } else {
                     Applications.preference.put(Preference.SOUND, false);
                     iv_sound_set.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_mute_white));
+                    if (mPlayer != null && mPlayer.isPlaying()) {
+                        mPlayer.stop();
+                    }
+                } else {
+                    Applications.preference.put(Preference.SOUND, true);
+                    iv_sound_set.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_volume_white));
                 }
                 break;
             case R.id.btn_action:
@@ -342,12 +366,22 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
                     btn_exercise_out.setVisibility(View.VISIBLE);
                     stopTimer();
                     isActionPause = true;
+                    if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
+                        if (mPlayer != null && mPlayer.isPlaying()) {
+                            mPlayer.pause();
+                        }
+                    }
                 } else {
                     iv_play.setVisibility(View.GONE);
                     iv_pause.setVisibility(View.VISIBLE);
                     btn_exercise_out.setVisibility(View.GONE);
                     resumeTimer();
                     isActionPause = false;
+                    if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
+                        if (mPlayer != null) {
+                            mPlayer.play();
+                        }
+                    }
                 }
                 break;
             case R.id.btn_exercise_out:
@@ -359,6 +393,9 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if (mPlayer != null) {
+            mPlayer.stop();
+        }
         finish();
     }
 
@@ -367,6 +404,9 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         super.onPause();
         if (isSwitchPause) {
             stopTimer();
+            if (mPlayer != null && mPlayer.isPlaying()) {
+                mPlayer.pause();
+            }
         }
     }
 
@@ -389,5 +429,4 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         }
         return h;
     }
-
 }

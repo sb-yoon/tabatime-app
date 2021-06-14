@@ -102,8 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
 
         String email = Applications.preference.getValue(Preference.EMAIL, "");
-        String uid = Applications.preference.getValue(Preference.UID, "");
-        if (uid.isEmpty()) {
+        if (email.isEmpty()) {
             tv_login.setVisibility(View.VISIBLE);
             tv_mail.setVisibility(View.GONE);
         } else {

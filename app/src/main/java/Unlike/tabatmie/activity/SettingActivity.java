@@ -2,20 +2,29 @@ package Unlike.tabatmie.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.kakao.sdk.auth.model.OAuthToken;
+import com.kakao.sdk.user.UserApiClient;
+import com.kakao.sdk.user.model.User;
+
 import Unlike.tabatmie.BuildConfig;
 import Unlike.tabatmie.R;
+import Unlike.tabatmie.connect.CallRetrofit;
 import Unlike.tabatmie.util.Applications;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
 
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -82,8 +91,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        String uid = Applications.preference.getValue(Preference.UID, "");
-        if (uid.isEmpty()) {
+        String email = Applications.preference.getValue(Preference.EMAIL, "");
+        if (email.isEmpty()) {
             btn_logout.setVisibility(View.GONE);
             btn_login.setVisibility(View.VISIBLE);
         } else {
@@ -117,11 +126,14 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btn_logout:
                 btn_logout.setVisibility(View.GONE);
                 btn_login.setVisibility(View.VISIBLE);
-                Applications.preference.put(Preference.UID, "");
                 Applications.preference.put(Preference.EMAIL, "");
                 break;
             case R.id.btn_login:
-                goLogin();
+                if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(SettingActivity.this)) {
+                    UserApiClient.getInstance().loginWithKakaoTalk(SettingActivity.this, kLoginCallback);
+                } else {
+                    UserApiClient.getInstance().loginWithKakaoAccount(SettingActivity.this, kLoginCallback);
+                }
                 break;
         }
     }
@@ -147,9 +159,34 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    public void goLogin() {
-        Intent goLogin = new Intent(SettingActivity.this, SplashActivity.class);
-        goLogin.setAction("login");
-        startActivity(goLogin);
-    }
+    Function2<OAuthToken, Throwable, Unit> kLoginCallback = new Function2<OAuthToken, Throwable, Unit>() {
+        @Override
+        public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
+            if (throwable != null) {
+                //login fail
+            } else {
+                if (oAuthToken != null) {
+                    UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
+                        @Override
+                        public Unit invoke(User user, Throwable throwable) {
+                            if (user != null) {
+                                //login success
+                                if (!user.getKakaoAccount().getEmail().isEmpty() && user.getId() > 0) {
+                                    CallRetrofit call = new CallRetrofit();
+                                    call.callLogin(user.getKakaoAccount().getEmail(), (int) user.getId());
+                                }
+                            } else {
+                                Toast.makeText(SettingActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
+                            }
+                            return null;
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(SettingActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
+                }
+            }
+            return null;
+        }
+    };
 }

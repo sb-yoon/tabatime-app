@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import Unlike.tabatmie.R;
+import Unlike.tabatmie.connect.CallRetrofit;
 import Unlike.tabatmie.util.Applications;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
@@ -90,20 +92,20 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                         public Unit invoke(User user, Throwable throwable) {
                             if (user != null) {
                                 //login success
-                                Applications.preference.put(Preference.UID, "success");
-                                if (!user.getKakaoAccount().getEmail().isEmpty()) {
-                                    Applications.preference.put(Preference.EMAIL, user.getKakaoAccount().getEmail());
+                                if (!user.getKakaoAccount().getEmail().isEmpty() && user.getId() > 0) {
+                                    CallRetrofit call = new CallRetrofit();
+                                    call.callLogin(user.getKakaoAccount().getEmail(), (int) user.getId());
                                 }
                                 finish();
                             } else {
-                                //login fail
+                                Toast.makeText(SplashActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
                             }
                             return null;
                         }
                     });
 
                 } else {
-                    //login fail
+                    Toast.makeText(SplashActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
                 }
             }
             return null;

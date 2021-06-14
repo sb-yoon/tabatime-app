@@ -10,13 +10,21 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.kakao.sdk.auth.model.OAuthToken;
+import com.kakao.sdk.user.UserApiClient;
+import com.kakao.sdk.user.model.User;
 
 import Unlike.tabatmie.R;
+import Unlike.tabatmie.connect.CallRetrofit;
 import Unlike.tabatmie.util.Applications;
 import Unlike.tabatmie.util.CommonUtil;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
 
 public class SuccessActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -67,9 +75,9 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
         tv_exercise.setText(CommonUtil.getTime(Applications.preference.getValue(Preference.EXERCISE, Preference.D_EXERCISE)));
         tv_rest.setText(CommonUtil.getTime(Applications.preference.getValue(Preference.REST, Preference.D_REST)));
         tv_set.setText(Applications.preference.getValue(Preference.SET, Preference.D_SET) + "");
-        tv_round.setText(Applications.preference.getValue(Preference.ROUND, Preference.ROUND) + "");
+        tv_round.setText(Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND) + "");
 
-        go_login = Applications.preference.getValue(Preference.UID, "").isEmpty();
+        go_login = Applications.preference.getValue(Preference.EMAIL, "").isEmpty();
         if (go_login) {
             tv_success.setText(getResources().getString(R.string.success_login));
             layer_finish.setVisibility(View.VISIBLE);
@@ -85,7 +93,11 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
         switch (id) {
             case R.id.btn_success:
                 if (go_login) {
-                    goLogin();
+                    if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(SuccessActivity.this)) {
+                        UserApiClient.getInstance().loginWithKakaoTalk(SuccessActivity.this, kLoginCallback);
+                    } else {
+                        UserApiClient.getInstance().loginWithKakaoAccount(SuccessActivity.this, kLoginCallback);
+                    }
                 } else {
                     goMain();
                 }
@@ -102,16 +114,40 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
         finish();
     }
 
-    public void goLogin() {
-        Intent goLogin = new Intent(SuccessActivity.this, MainActivity.class);
-        goLogin.setAction("login");
-        startActivity(goLogin);
-        finish();
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
     }
+
+    Function2<OAuthToken, Throwable, Unit> kLoginCallback = new Function2<OAuthToken, Throwable, Unit>() {
+        @Override
+        public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
+            if (throwable != null) {
+                //login fail
+            } else {
+                if (oAuthToken != null) {
+                    UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
+                        @Override
+                        public Unit invoke(User user, Throwable throwable) {
+                            if (user != null) {
+                                //login success
+                                if (!user.getKakaoAccount().getEmail().isEmpty() && user.getId() > 0) {
+                                    CallRetrofit call = new CallRetrofit();
+                                    call.callLogin(user.getKakaoAccount().getEmail(), (int) user.getId());
+                                }
+                            } else {
+                                Toast.makeText(SuccessActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
+                            }
+                            return null;
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(SuccessActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
+                }
+            }
+            return null;
+        }
+    };
 }
