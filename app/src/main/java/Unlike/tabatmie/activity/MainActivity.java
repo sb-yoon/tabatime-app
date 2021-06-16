@@ -77,7 +77,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
+
+        try {
+            Applications.setRefreshActivity(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         init();
     }
@@ -101,15 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-        String email = Applications.preference.getValue(Preference.EMAIL, "");
-        if (email.isEmpty()) {
-            tv_login.setVisibility(View.VISIBLE);
-            tv_mail.setVisibility(View.GONE);
-        } else {
-            tv_login.setVisibility(View.GONE);
-            tv_mail.setVisibility(View.VISIBLE);
-            tv_mail.setText(email);
-        }
+        refresh();
 
         int exercise = Applications.preference.getValue(Preference.EXERCISE, Preference.D_EXERCISE);
         int rest = Applications.preference.getValue(Preference.REST, Preference.D_REST);
@@ -217,5 +216,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         goProgress.putExtra("title", title);
         goProgress.putExtra("dialog_type", dialog_type);
         startActivity(goProgress);
+    }
+
+    public void refresh() {
+        String token = Applications.preference.getValue(Preference.TOKEN, "");
+        if (token.isEmpty()) {
+            tv_login.setVisibility(View.VISIBLE);
+            tv_mail.setVisibility(View.GONE);
+        } else {
+            tv_login.setVisibility(View.GONE);
+            tv_mail.setVisibility(View.VISIBLE);
+            tv_mail.setText(Applications.preference.getValue(Preference.EMAIL, ""));
+        }
     }
 }

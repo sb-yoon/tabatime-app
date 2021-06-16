@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.kakao.sdk.user.UserApiClient;
+
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -28,6 +30,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import Unlike.tabatmie.BuildConfig;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class CommonUtil {
 
@@ -247,5 +251,20 @@ public class CommonUtil {
         } else {
             return String.format("%02d", min) + ":" + String.format("%02d", sec);
         }
+    }
+
+    public static void logout() {
+        try {
+            UserApiClient.getInstance().logout(new Function1<Throwable, Unit>() {
+                @Override
+                public Unit invoke(Throwable throwable) {
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Applications.preference.put(Preference.TOKEN, "");
+        Applications.preference.put(Preference.EMAIL, "");
     }
 }

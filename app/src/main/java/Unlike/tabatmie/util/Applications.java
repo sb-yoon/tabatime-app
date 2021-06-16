@@ -5,13 +5,11 @@ import android.app.Application;
 import android.content.Context;
 
 import com.kakao.sdk.common.KakaoSdk;
-import com.kakao.sdk.user.UserApiClient;
 
 import Unlike.tabatmie.R;
+import Unlike.tabatmie.activity.MainActivity;
+import Unlike.tabatmie.activity.SettingActivity;
 import Unlike.tabatmie.database.TabatimeDBHelper;
-import butterknife.ButterKnife;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 
 
 public class Applications extends Application {
@@ -21,6 +19,7 @@ public class Applications extends Application {
     public static Preference preference;
 
     public static Context context;
+    public static Activity refreshActivity;
 
     public Applications() {
         super();
@@ -47,19 +46,21 @@ public class Applications extends Application {
         return result;
     }
 
-    public static void logout() {
+    public static void setRefreshActivity(Activity refreshActivity) throws Exception {
+        Applications.refreshActivity = refreshActivity;
+    }
+
+    public static void refreshActivity() {
         try {
-            UserApiClient.getInstance().logout(new Function1<Throwable, Unit>() {
-                @Override
-                public Unit invoke(Throwable throwable) {
-                    return null;
+            if (refreshActivity != null) {
+                if (refreshActivity instanceof MainActivity) {
+                    ((MainActivity) refreshActivity).refresh();
+                } else if (refreshActivity instanceof SettingActivity) {
+                    ((SettingActivity) refreshActivity).refresh();
                 }
-            });
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Applications.preference.pclear();
     }
-
 }

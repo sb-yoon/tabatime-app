@@ -13,6 +13,7 @@ import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
 
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,9 +30,11 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
 
     private String TAG = this.getClass().toString();
 
+    CallRetrofit callLogin;
+    CallRetrofit callProfile;
+
     @BindView(R.id.btn_login)
     RelativeLayout btn_login;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +60,16 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
             Timer timer = new Timer();
             long splashDelay = 2000;
             timer.schedule(task, splashDelay);
-
         }
-
     }
 
     public void init() {
         btn_login.setOnClickListener(this);
+
+        if (!Applications.preference.getValue(Preference.TOKEN, "").isEmpty()) {
+            callProfile = new CallRetrofit();
+            callProfile.callProfile();
+        }
     }
 
     @Override
@@ -84,17 +90,23 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
             if (throwable != null) {
-                //login fail
+                Toast.makeText(SplashActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
             } else {
                 if (oAuthToken != null) {
                     UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
                         @Override
                         public Unit invoke(User user, Throwable throwable) {
                             if (user != null) {
-                                //login success
                                 if (!user.getKakaoAccount().getEmail().isEmpty() && user.getId() > 0) {
-                                    CallRetrofit call = new CallRetrofit();
-                                    call.callLogin(user.getKakaoAccount().getEmail(), (int) user.getId());
+                                    String email = user.getKakaoAccount().getEmail();
+                                    int id = (int) user.getId();
+                                    HashMap<String, Object> map = new HashMap<>();
+                                    map.put("email", email);
+                                    map.put("snsId", id);
+                                    callLogin = new CallRetrofit();
+                                    callLogin.setHashMap(map);
+                                    callLogin.callLogin(false);
+                                    Applications.preference.put(Preference.EMAIL, email);
                                 }
                                 finish();
                             } else {

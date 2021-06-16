@@ -1,6 +1,5 @@
 package Unlike.tabatmie.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,10 +15,13 @@ import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
 
+import java.util.HashMap;
+
 import Unlike.tabatmie.BuildConfig;
 import Unlike.tabatmie.R;
 import Unlike.tabatmie.connect.CallRetrofit;
 import Unlike.tabatmie.util.Applications;
+import Unlike.tabatmie.util.CommonUtil;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +63,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
         ButterKnife.bind(this);
 
+        try {
+            Applications.setRefreshActivity(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         init();
     }
 
@@ -91,8 +99,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        String email = Applications.preference.getValue(Preference.EMAIL, "");
-        if (email.isEmpty()) {
+        String token = Applications.preference.getValue(Preference.TOKEN, "");
+        if (token.isEmpty()) {
             btn_logout.setVisibility(View.GONE);
             btn_login.setVisibility(View.VISIBLE);
         } else {
@@ -126,7 +134,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btn_logout:
                 btn_logout.setVisibility(View.GONE);
                 btn_login.setVisibility(View.VISIBLE);
-                Applications.preference.put(Preference.EMAIL, "");
+                CommonUtil.logout();
                 break;
             case R.id.btn_login:
                 if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(SettingActivity.this)) {
@@ -163,17 +171,24 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
             if (throwable != null) {
-                //login fail
+                Log.e("fail", throwable.toString());
+                Toast.makeText(SettingActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
             } else {
                 if (oAuthToken != null) {
                     UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
                         @Override
                         public Unit invoke(User user, Throwable throwable) {
                             if (user != null) {
-                                //login success
                                 if (!user.getKakaoAccount().getEmail().isEmpty() && user.getId() > 0) {
+                                    String email = user.getKakaoAccount().getEmail();
+                                    int id = (int) user.getId();
+                                    HashMap<String, Object> map = new HashMap<>();
+                                    map.put("email", email);
+                                    map.put("snsId", id);
                                     CallRetrofit call = new CallRetrofit();
-                                    call.callLogin(user.getKakaoAccount().getEmail(), (int) user.getId());
+                                    call.setHashMap(map);
+                                    call.callLogin(false);
+                                    Applications.preference.put(Preference.EMAIL, email);
                                 }
                             } else {
                                 Toast.makeText(SettingActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
@@ -189,4 +204,15 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             return null;
         }
     };
+
+    public void refresh() {
+        String token = Applications.preference.getValue(Preference.TOKEN, "");
+        if (token.isEmpty()) {
+            btn_logout.setVisibility(View.GONE);
+            btn_login.setVisibility(View.VISIBLE);
+        } else {
+            btn_logout.setVisibility(View.VISIBLE);
+            btn_login.setVisibility(View.GONE);
+        }
+    }
 }

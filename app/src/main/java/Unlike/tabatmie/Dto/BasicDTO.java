@@ -1,6 +1,6 @@
 package Unlike.tabatmie.Dto;
 
-public class SignDTO {
+public class BasicDTO {
 
     int code;
     String message;
@@ -19,13 +19,5 @@ public class SignDTO {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return "SignDTO{" +
-                "code=" + code +
-                ", message='" + message + '\'' +
-                '}';
     }
 }

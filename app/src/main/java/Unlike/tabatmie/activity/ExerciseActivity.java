@@ -285,7 +285,6 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onTick(long millisUntilFinished) {
                 long count = millisUntilFinished / 1000;
-                Log.e(TAG, "count : " + count);
                 tv_time.setText(CommonUtil.getTime((int) count));
                 try {
                     if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND) && count == 3) {

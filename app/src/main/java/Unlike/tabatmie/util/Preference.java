@@ -9,6 +9,7 @@ public class Preference {
     private final String PREF_NAME = "unlike.tabatmie.pref";
     private final String VER_NAME = "unlike.tabatmie.ver";
 
+    public static final int D_EXERCISE_TIME = 190;
     public static final int D_EXERCISE = 30;
     public static final int D_REST = 10;
     public static final int D_SET = 5;
@@ -18,7 +19,7 @@ public class Preference {
     public static final int D_READY = 5;
     public static final boolean D_PAUSE = true;
 
-    public static String UID = "uid";
+    public static String TOKEN = "token";
     public static String EMAIL = "email";
 
     public static String EXERCISE_TIME = "exercise_time";

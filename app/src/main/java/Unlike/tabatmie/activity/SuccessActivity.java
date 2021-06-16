@@ -16,6 +16,8 @@ import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
 
+import java.util.HashMap;
+
 import Unlike.tabatmie.R;
 import Unlike.tabatmie.connect.CallRetrofit;
 import Unlike.tabatmie.util.Applications;
@@ -53,12 +55,21 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
 
     private boolean go_login;
 
+    private CallRetrofit callLogin;
+    private CallRetrofit callRecord;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_success);
 
         ButterKnife.bind(this);
+
+        try {
+            Applications.setRefreshActivity(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
@@ -77,13 +88,15 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
         tv_set.setText(Applications.preference.getValue(Preference.SET, Preference.D_SET) + "");
         tv_round.setText(Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND) + "");
 
-        go_login = Applications.preference.getValue(Preference.EMAIL, "").isEmpty();
+        go_login = Applications.preference.getValue(Preference.TOKEN, "").isEmpty();
         if (go_login) {
             tv_success.setText(getResources().getString(R.string.success_login));
             layer_finish.setVisibility(View.VISIBLE);
         } else {
             tv_success.setText(getResources().getString(R.string.finish));
             layer_finish.setVisibility(View.GONE);
+            callRecord = new CallRetrofit();
+            callRecord.callRoutine();
         }
     }
 
@@ -124,17 +137,24 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
             if (throwable != null) {
-                //login fail
+                Toast.makeText(SuccessActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
             } else {
                 if (oAuthToken != null) {
                     UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
                         @Override
                         public Unit invoke(User user, Throwable throwable) {
                             if (user != null) {
-                                //login success
                                 if (!user.getKakaoAccount().getEmail().isEmpty() && user.getId() > 0) {
-                                    CallRetrofit call = new CallRetrofit();
-                                    call.callLogin(user.getKakaoAccount().getEmail(), (int) user.getId());
+                                    String email = user.getKakaoAccount().getEmail();
+                                    int id = (int) user.getId();
+                                    HashMap<String, Object> map = new HashMap<>();
+                                    map.put("email", email);
+                                    map.put("snsId", id);
+                                    callLogin = new CallRetrofit();
+                                    callLogin.setHashMap(map);
+                                    callLogin.callLogin(true);
+                                    Applications.preference.put(Preference.EMAIL, email);
+                                    finish();
                                 }
                             } else {
                                 Toast.makeText(SuccessActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
