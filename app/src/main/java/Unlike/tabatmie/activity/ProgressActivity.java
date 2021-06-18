@@ -105,7 +105,7 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
 
         setCntList(min);
 
-        progressAdapter = new ProgressAdapter(this, progressList, type);
+        progressAdapter = new ProgressAdapter(progressList);
         layer_cnt.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         layer_cnt.setAdapter(progressAdapter);
         layer_cnt.post(new Runnable() {
@@ -128,7 +128,7 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
                         int pos = recyclerView.getLayoutManager().getPosition(centerView);
                         boolean changed = pos != snapPosision;
                         if (changed) {
-                            selectCnt = Integer.parseInt(progressList.get(pos).getTv_cnt());
+                            selectCnt = Integer.parseInt(progressList.get(pos).getCnt());
                             snapPosision = pos;
                             if (type.equals("1")) {
                                 setCntList(pos - 1);

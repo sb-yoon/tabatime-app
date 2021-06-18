@@ -200,6 +200,7 @@
                 android:background="@drawable/layer_dailog_cancel">
 
                 <TextView
+                    android:id="@+id/tv_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -219,6 +220,7 @@
                 android:background="@drawable/layer_dailog_ok">
 
                 <TextView
+                    android:id="@+id/tv_ok"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"

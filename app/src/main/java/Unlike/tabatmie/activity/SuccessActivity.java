@@ -1,7 +1,5 @@
 package Unlike.tabatmie.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
@@ -20,6 +20,7 @@ import java.util.HashMap;
 
 import Unlike.tabatmie.R;
 import Unlike.tabatmie.connect.CallRetrofit;
+import Unlike.tabatmie.dialog.TabatimeDialog;
 import Unlike.tabatmie.util.Applications;
 import Unlike.tabatmie.util.CommonUtil;
 import Unlike.tabatmie.util.Preference;
@@ -53,7 +54,7 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
     @BindView(R.id.layer_finish)
     LinearLayout layer_finish;
 
-    private boolean go_login;
+    private boolean go_login = false, go_save = false;
 
     private CallRetrofit callLogin;
     private CallRetrofit callRecord;
@@ -93,10 +94,11 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
             tv_success.setText(getResources().getString(R.string.success_login));
             layer_finish.setVisibility(View.VISIBLE);
         } else {
+            go_save = true;
             tv_success.setText(getResources().getString(R.string.finish));
             layer_finish.setVisibility(View.GONE);
             callRecord = new CallRetrofit();
-            callRecord.callRoutine();
+            callRecord.callRoutine(false);
         }
     }
 
@@ -106,25 +108,37 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
         switch (id) {
             case R.id.btn_success:
                 if (go_login) {
+                    go_save = true;
                     if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(SuccessActivity.this)) {
                         UserApiClient.getInstance().loginWithKakaoTalk(SuccessActivity.this, kLoginCallback);
                     } else {
                         UserApiClient.getInstance().loginWithKakaoAccount(SuccessActivity.this, kLoginCallback);
                     }
                 } else {
-                    goMain();
+                    chkCon();
                 }
                 break;
             case R.id.layer_finish:
-                goMain();
+                chkCon();
                 break;
+        }
+    }
+
+    public void chkCon() {
+        Log.e("chkCon", Applications.preference.getValue(Preference.SAVE_SUCCESS, false) + ":" + go_save);
+        if (!Applications.preference.getValue(Preference.SAVE_SUCCESS, false) && go_save) {
+            callRecord = new CallRetrofit();
+            callRecord.callRoutine(true);
+        } else {
+            Applications.preference.put(Preference.SAVE_SUCCESS, false);
+            goMain();
         }
     }
 
     public void goMain() {
         Intent intent = new Intent(SuccessActivity.this, MainActivity.class);
         startActivity(intent);
-        finish();
+        onBackPressed();
     }
 
     @Override
@@ -154,7 +168,6 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
                                     callLogin.setHashMap(map);
                                     callLogin.callLogin(true);
                                     Applications.preference.put(Preference.EMAIL, email);
-                                    finish();
                                 }
                             } else {
                                 Toast.makeText(SuccessActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
@@ -170,4 +183,46 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
             return null;
         }
     };
+
+    public void refresh() {
+        if (Applications.preference.getValue(Preference.TOKEN, "").isEmpty()) {
+            go_login = true;
+            tv_success.setText(getResources().getString(R.string.success_login));
+            layer_finish.setVisibility(View.VISIBLE);
+        } else {
+            go_login = false;
+            tv_success.setText(getResources().getString(R.string.finish));
+            layer_finish.setVisibility(View.GONE);
+        }
+    }
+
+    public void tryAgain() {
+        TabatimeDialog dialog = new TabatimeDialog(this);
+        dialog.setDialogType(0);
+        dialog.setTitle(getResources().getString(R.string.error));
+        dialog.setCancelBtnClickListener(getResources().getString(R.string.try_again), new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (callRecord == null) {
+                    callRecord = new CallRetrofit();
+                }
+                callRecord.callRoutine(true);
+                dialog.dismiss();
+            }
+        });
+        dialog.setOkBtnClickListener(getResources().getString(R.string.no_save), new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                onBackPressed();
+            }
+        });
+        dialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Applications.preference.put(Preference.SAVE_SUCCESS, false);
+    }
 }

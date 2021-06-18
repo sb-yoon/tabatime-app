@@ -41,8 +41,10 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
 
     @BindView(R.id.layer_pause)
     RelativeLayout layer_pause;
-    @BindView(R.id.switch_pause)
-    Switch switch_pause;
+    @BindView(R.id.ready_pause)
+    Switch ready_pause;
+    @BindView(R.id.round_pause)
+    Switch round_pause;
 
     @BindView(R.id.layer_exercise_num)
     LinearLayout layer_exercise_num;
@@ -76,6 +78,8 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
     ImageView iv_sound_set;
     @BindView(R.id.btn_exercise_out)
     RelativeLayout btn_exercise_out;
+    @BindView(R.id.btn_skip)
+    RelativeLayout btn_skip;
     private SoundPoolPlayer mPlayer;
 
     private int ready, exercise, rest, set, round, round_reset;
@@ -114,17 +118,19 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
     public void init() {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
-        switch_pause.setOnClickListener(this);
+        ready_pause.setOnClickListener(this);
+        round_pause.setOnClickListener(this);
         btn_sound.setOnClickListener(this);
         btn_action.setOnClickListener(this);
         btn_exercise_out.setOnClickListener(this);
+        btn_skip.setOnClickListener(this);
 
         if (Applications.preference.getValue(Preference.EXERCISE_PAUSE, Preference.D_PAUSE)) {
             isSwitchPause = true;
-            switch_pause.setChecked(true);
+            ready_pause.setChecked(true);
         } else {
             isSwitchPause = false;
-            switch_pause.setChecked(false);
+            ready_pause.setChecked(false);
         }
 
         ready = Preference.D_READY;
@@ -170,6 +176,8 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         tv_exercise_title.setText(getResources().getString(R.string.exercise_ready_title));
 
         layer_pause.setVisibility(View.VISIBLE);
+        ready_pause.setVisibility(View.VISIBLE);
+        round_pause.setVisibility(View.GONE);
         layer_exercise_num.setVisibility(View.GONE);
 
         progressbar.setMax(ready * 1000);
@@ -178,6 +186,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
 
         iv_play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_pink));
         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_pink));
+        btn_skip.setVisibility(View.INVISIBLE);
 
         startTimer(ready);
         isExerciseStart = true;
@@ -191,6 +200,9 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
 
         layer_pause.setVisibility(View.GONE);
         layer_exercise_num.setVisibility(View.VISIBLE);
+
+        layer_pause.setVisibility(View.GONE);
+        layer_exercise_num.setVisibility(View.VISIBLE);
         tv_set_num.setText(set + "");
         tv_round_num.setText(round + "");
 
@@ -200,6 +212,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
 
         iv_play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_blue));
         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_blue));
+        btn_skip.setVisibility(View.INVISIBLE);
 
         startTimer(exercise);
         set--;
@@ -224,19 +237,27 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void setRoundReset() {
-        layer_exercise.setBackgroundColor(ContextCompat.getColor(this, R.color.defalut_black));
+        layer_exercise.setBackgroundColor(ContextCompat.getColor(this, R.color.pink));
 
         tv_exercise_title.setText(getResources().getString(R.string.title_round_reset));
 
-        tv_set_num.setText(set + "");
-        tv_round_num.setText(round + "");
+        if (isSwitchPause) {
+            round_pause.setChecked(true);
+        } else {
+            round_pause.setChecked(false);
+        }
+        layer_pause.setVisibility(View.VISIBLE);
+        ready_pause.setVisibility(View.GONE);
+        round_pause.setVisibility(View.VISIBLE);
+        layer_exercise_num.setVisibility(View.GONE);
 
         progressbar.setMax(round_reset * 1000);
         tv_time.setText(CommonUtil.getTime(round_reset));
         tv_state.setText(getResources().getString(R.string.title_round_reset));
 
-        iv_play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_navy));
-        iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_navy));
+        iv_play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_round_pink));
+        iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_roundpink));
+        btn_skip.setVisibility(View.VISIBLE);
 
         startTimer(round_reset);
     }
@@ -317,7 +338,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         setTime(time);
     }
 
-    public void stopTimer() {
+    public void pauseTimer() {
         try {
             progressTimer.pause();
             timer.pause();
@@ -335,15 +356,31 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public void stopTimer() {
+        try {
+            progressTimer.cancel();
+            timer.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.switch_pause:
-                if (switch_pause.isChecked()) {
-                    isSwitchPause = false;
-                } else {
+            case R.id.ready_pause:
+                if (ready_pause.isChecked()) {
                     isSwitchPause = true;
+                } else {
+                    isSwitchPause = false;
+                }
+                break;
+            case R.id.round_pause:
+                if (round_pause.isChecked()) {
+                    isSwitchPause = true;
+                } else {
+                    isSwitchPause = false;
                 }
                 break;
             case R.id.btn_sound:
@@ -352,6 +389,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
                     iv_sound_set.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_mute_white));
                     if (mPlayer != null && mPlayer.isPlaying()) {
                         mPlayer.stop();
+                        mPlayer = null;
                     }
                 } else {
                     Applications.preference.put(Preference.SOUND, true);
@@ -363,7 +401,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
                     iv_play.setVisibility(View.VISIBLE);
                     iv_pause.setVisibility(View.GONE);
                     btn_exercise_out.setVisibility(View.VISIBLE);
-                    stopTimer();
+                    pauseTimer();
                     isActionPause = true;
                     if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
                         if (mPlayer != null && mPlayer.isPlaying()) {
@@ -386,6 +424,14 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_exercise_out:
                 onBackPressed();
                 break;
+            case R.id.btn_skip:
+                if (mPlayer != null) {
+                    mPlayer.stop();
+                    mPlayer = null;
+                }
+                stopTimer();
+                chkExerciseStep();
+                break;
         }
     }
 
@@ -394,6 +440,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         super.onBackPressed();
         if (mPlayer != null) {
             mPlayer.stop();
+            mPlayer = null;
         }
         finish();
     }
@@ -402,7 +449,7 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
     protected void onPause() {
         super.onPause();
         if (isSwitchPause) {
-            stopTimer();
+            pauseTimer();
             if (mPlayer != null && mPlayer.isPlaying()) {
                 mPlayer.pause();
             }

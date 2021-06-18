@@ -16,15 +16,11 @@ import Unlike.tabatmie.R;
 
 public class ProgressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
     private ArrayList<ProgressDTO> progressList;
-    private String type;
     private ProgressViewHolder progressViewHolder;
 
-    public ProgressAdapter(Context context, ArrayList<ProgressDTO> progressList, String type) {
-        this.context = context;
+    public ProgressAdapter(ArrayList<ProgressDTO> progressList) {
         this.progressList = progressList;
-        this.type = type;
     }
 
     @NonNull
@@ -39,7 +35,7 @@ public class ProgressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         progressViewHolder = (ProgressViewHolder) holder;
         if (!progressList.isEmpty()) {
-            String cnt = progressList.get(position).getTv_cnt();
+            String cnt = progressList.get(position).getCnt();
             if (Integer.parseInt(cnt) == 0) {
                 progressViewHolder.tv_cnt.setText(cnt);
                 progressViewHolder.tv_cnt.setVisibility(View.INVISIBLE);

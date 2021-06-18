@@ -2,24 +2,20 @@ package Unlike.tabatmie.Dto;
 
 public class ProgressDTO {
 
-    String tv_cnt;
+    String cnt;
     boolean center;
 
-    public ProgressDTO(String tv_cnt, boolean center) {
-        this.tv_cnt = tv_cnt;
+    public ProgressDTO(String cnt, boolean center) {
+        this.cnt = cnt;
         this.center = center;
     }
 
-    public ProgressDTO(boolean center) {
-        this.center = center;
+    public String getCnt() {
+        return cnt;
     }
 
-    public String getTv_cnt() {
-        return tv_cnt;
-    }
-
-    public void setTv_cnt(String tv_cnt) {
-        this.tv_cnt = tv_cnt;
+    public void setCnt(String cnt) {
+        this.cnt = cnt;
     }
 
     public boolean isCenter() {

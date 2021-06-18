@@ -30,13 +30,14 @@
     <!--record-->
     <string name="delete">삭제</string>
     <string name="delete_info">삭제할 기록을 선택하세요.</string>
+    <string name="routine">해당 루틴으로 설정하시겠습니까?</string>
     <!--record-->
 
     <!--stat-->
     <string name="user_now">회원님은 현재</string>
-    <string name="lank">상위 %1$s%</string>
+    <string name="lank">상위 %1$s</string>
     <string name="total_cnt">총 운동 횟수</string>
-    <string name="total_time">총 운동 횟수</string>
+    <string name="total_time">총 운동 시간</string>
     <string name="no_stat">운동을 시작하여 랭킹에 도전해보세요.</string>
     <!--stat-->
 
@@ -58,6 +59,7 @@
     <string name="exercise_ready">운동 준비</string>
     <string name="exercising">운동</string>
     <string name="exercise_rest">휴식</string>
+    <string name="skip">SKIP</string>
     <!--exercise-->
 
     <!--success-->
@@ -68,6 +70,9 @@
     <string name="go_home">홈으로 가기</string>
     <string name="go_home_info">‘홈으로 가기’ 선택시 기록은 저장되지 않습니다.</string>
     <string name="success_login">카카오 로그인하고 기록하기</string>
+    <string name="error">오류가 발생하였습니다.</string>
+    <string name="try_again">재시도</string>
+    <string name="no_save">저장하지않고 나가기</string>
     <!--success-->
 
     <!--progress-->

@@ -61,10 +61,15 @@ public class TabatimeDialog extends Dialog {
     LinearLayout layer_btns;
     @BindView(R.id.btn_cancel)
     RelativeLayout btn_cancel;
+    @BindView(R.id.tv_cancel)
+    TextView tv_cancel;
     @BindView(R.id.btn_ok)
     RelativeLayout btn_ok;
+    @BindView(R.id.tv_ok)
+    TextView tv_ok;
     private View.OnClickListener cancelClickListener;
     private View.OnClickListener okClickListener;
+    private String cancel, ok;
 
 
     public void setDialogType(int dialogType) {
@@ -87,11 +92,23 @@ public class TabatimeDialog extends Dialog {
         this.applyClickListener = applyClickListener;
     }
 
-    public void cancelClickListener(View.OnClickListener cancelClickListener) {
+    public void setCancelBtnClickListener(String cancel, View.OnClickListener cancelClickListener) {
+        this.cancel = cancel;
         this.cancelClickListener = cancelClickListener;
     }
 
-    public void okClickListener(View.OnClickListener okClickListener) {
+    public void setOkBtnClickListener(String ok, View.OnClickListener okClickListener) {
+        this.ok = ok;
+        this.okClickListener = okClickListener;
+    }
+
+    public void setCancelBtnClickListener(View.OnClickListener cancelClickListener) {
+        this.cancel = cancel;
+        this.cancelClickListener = cancelClickListener;
+    }
+
+    public void setOkBtnClickListener(View.OnClickListener okClickListener) {
+        this.ok = ok;
         this.okClickListener = okClickListener;
     }
 
@@ -125,16 +142,14 @@ public class TabatimeDialog extends Dialog {
             tv_edit_info.setText(edit_info);
             btn_apply.setVisibility(View.VISIBLE);
             layer_btns.setVisibility(View.GONE);
+
+            setfilter(et_min);
+            setfilter(et_sec);
+            setfilter(et_cnt);
+
+            btn_close.setOnClickListener(closeClickListener);
+            btn_apply.setOnClickListener(applyClickListener);
         }
-
-        btn_close.setOnClickListener(closeClickListener);
-        btn_apply.setOnClickListener(applyClickListener);
-        btn_cancel.setOnClickListener(cancelClickListener);
-        btn_ok.setOnClickListener(okClickListener);
-
-        setfilter(et_min);
-        setfilter(et_sec);
-        setfilter(et_cnt);
     }
 
     @Override
@@ -158,6 +173,15 @@ public class TabatimeDialog extends Dialog {
         tv_edit_info.setVisibility(View.GONE);
         btn_apply.setVisibility(View.GONE);
         layer_btns.setVisibility(View.VISIBLE);
+
+        btn_cancel.setOnClickListener(cancelClickListener);
+        btn_ok.setOnClickListener(okClickListener);
+        if (cancel != null && !cancel.equals("")) {
+            tv_cancel.setText(cancel);
+        }
+        if (ok != null && !ok.equals("")) {
+            tv_ok.setText(ok);
+        }
     }
 
     public void setfilter(EditText et) {

@@ -9,6 +9,9 @@ public class Preference {
     private final String PREF_NAME = "unlike.tabatmie.pref";
     private final String VER_NAME = "unlike.tabatmie.ver";
 
+    public static final String TOKEN = "token";
+    public static final String EMAIL = "email";
+
     public static final int D_EXERCISE_TIME = 190;
     public static final int D_EXERCISE = 30;
     public static final int D_REST = 10;
@@ -19,19 +22,21 @@ public class Preference {
     public static final int D_READY = 5;
     public static final boolean D_PAUSE = true;
 
-    public static String TOKEN = "token";
-    public static String EMAIL = "email";
+    public static final String EXERCISE_TIME = "exercise_time";
+    public static final String EXERCISE = "exercise";
+    public static final String REST = "rest";
+    public static final String SET = "set";
+    public static final String ROUND = "round";
+    public static final String ROUND_RESET = "round_reset";
+    public static final String SOUND = "sound";
 
-    public static String EXERCISE_TIME = "exercise_time";
-    public static String EXERCISE = "exercise";
-    public static String REST = "rest";
-    public static String SET = "set";
-    public static String ROUND = "round";
-    public static String ROUND_RESET = "round_reset";
-    public static String SOUND = "sound";
-    public static String SOUND_TYPE = "sound_type";
+    public static final String EXERCISE_PAUSE = "is_exercise_pause";
 
-    public static String EXERCISE_PAUSE = "is_exercise_pause";
+    public static final String GO_ROUTINE = "go_routine";
+    public static final String SAVE_SUCCESS = "save_success";
+
+    public static final String DELETE = "delete";
+
 
     private static Context context;
 

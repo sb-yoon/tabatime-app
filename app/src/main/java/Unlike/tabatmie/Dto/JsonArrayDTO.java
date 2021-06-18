@@ -1,13 +1,14 @@
 package Unlike.tabatmie.Dto;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-public class JsonDTO {
+public class JsonArrayDTO {
     int code;
     String message;
-    JsonObject data;
+    JsonArray data;
 
-    public JsonDTO(int code, String message, JsonObject data) {
+    public JsonArrayDTO(int code, String message, JsonArray data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -29,11 +30,11 @@ public class JsonDTO {
         this.message = message;
     }
 
-    public JsonObject getData() {
+    public JsonArray getData() {
         return data;
     }
 
-    public void setData(JsonObject data) {
+    public void setData(JsonArray data) {
         this.data = data;
     }
 }
