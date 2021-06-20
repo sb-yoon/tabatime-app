@@ -4,11 +4,18 @@ plugins {
 
 repositories {
     maven { url "https://jitpack.io" }
-
     maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
 }
 
 android {
+    signingConfigs {
+        key {
+            storeFile file('key/tabatime.jks')
+            storePassword 'untabata'
+            keyPassword 'untabata'
+            keyAlias 'Tabatime'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -26,6 +33,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.key
+        }
+        debug {
+            signingConfig signingConfigs.key
         }
     }
     compileOptions {
