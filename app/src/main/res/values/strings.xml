@@ -28,9 +28,10 @@
     <!--main-->
 
     <!--record-->
-    <string name="delete">삭제</string>
+    <string name="btn_delete">삭제</string>
     <string name="delete_info">삭제할 기록을 선택하세요.</string>
     <string name="routine">해당 루틴으로 설정하시겠습니까?</string>
+    <string name="delete">선택한 기록을 삭제할까요?</string>
     <!--record-->
 
     <!--stat-->

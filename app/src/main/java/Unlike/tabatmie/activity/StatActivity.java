@@ -15,8 +15,9 @@ import Unlike.tabatmie.connect.CallRetrofit;
 import Unlike.tabatmie.util.Applications;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class StatActivity extends AppCompatActivity implements View.OnClickListener, Animator.AnimatorListener {
+public class StatActivity extends AppCompatActivity implements Animator.AnimatorListener {
 
     @BindView(R.id.btn_back)
     RelativeLayout btn_back;
@@ -58,16 +59,13 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void init() {
-        btn_back.setOnClickListener(this);
-
         CallRetrofit call = new CallRetrofit();
         call.callStat();
     }
 
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
+    @OnClick({R.id.btn_back})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
             case R.id.btn_back:
                 onBackPressed();
                 break;

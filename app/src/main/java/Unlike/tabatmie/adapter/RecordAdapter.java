@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,7 +52,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         RecordViewHolder recordViewHolder = (RecordViewHolder) holder;
         if (!recordList.isEmpty()) {
-            recordViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            recordViewHolder.layer_record.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (itemClick != null) {
@@ -88,11 +89,13 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     static class RecordViewHolder extends RecyclerView.ViewHolder {
         ImageView btn_checked;
+        LinearLayout layer_record;
         TextView tv_date, tv_exercise_time, tv_exercise, tv_rest, tv_set, tv_round;
 
         public RecordViewHolder(@NonNull View itemView) {
             super(itemView);
             btn_checked = (ImageView) itemView.findViewById(R.id.btn_checked);
+            layer_record = (LinearLayout) itemView.findViewById(R.id.layer_record);
             tv_date = (TextView) itemView.findViewById(R.id.tv_date);
             tv_exercise_time = (TextView) itemView.findViewById(R.id.tv_exercise_time);
             tv_exercise = (TextView) itemView.findViewById(R.id.tv_exercise);

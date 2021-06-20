@@ -2,6 +2,7 @@ package Unlike.tabatmie.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,8 +20,9 @@ import Unlike.tabatmie.util.Applications;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class RecordActivity extends AppCompatActivity implements View.OnClickListener, RecordAdapter.ItemClick {
+public class RecordActivity extends AppCompatActivity implements RecordAdapter.ItemClick {
 
     @BindView(R.id.btn_back)
     RelativeLayout btn_back;
@@ -31,6 +33,15 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     RecyclerView layer_record;
     private RecordAdapter recordAdapter;
     private ArrayList<RecordDTO> recordList;
+    TabatimeDialog selecet_dialog;
+
+    @BindView(R.id.layer_delete)
+    LinearLayout layer_delete;
+    @BindView(R.id.btn_cancel)
+    RelativeLayout btn_cancel;
+    @BindView(R.id.btn_record_delete)
+    RelativeLayout btn_record_delete;
+    TabatimeDialog delete_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +60,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void init() {
-        btn_back.setOnClickListener(this);
+        Applications.preference.put(Preference.DELETE, false);
 
         recordList = new ArrayList<>();
 
@@ -70,15 +81,41 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
+    @OnClick({R.id.btn_back, R.id.btn_delete, R.id.btn_cancel, R.id.btn_record_delete})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
             case R.id.btn_back:
                 onBackPressed();
                 break;
             case R.id.btn_delete:
-                Applications.preference.put(Preference.DELETE, true);
+                if (!Applications.preference.getValue(Preference.DELETE, false)) {
+                    Applications.preference.put(Preference.DELETE, true);
+                    layer_delete.setVisibility(View.VISIBLE);
+                    recordAdapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.btn_cancel:
+                Applications.preference.put(Preference.DELETE, false);
+                layer_delete.setVisibility(View.GONE);
+                recordAdapter.notifyDataSetChanged();
+                break;
+            case R.id.btn_record_delete:
+                delete_dialog = new TabatimeDialog(this);
+                delete_dialog.setTitle(getResources().getString(R.string.delete));
+                delete_dialog.setCancelBtnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        delete_dialog.dismiss();
+                    }
+                });
+                delete_dialog.setOkBtnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        delete_dialog.dismiss();
+                    }
+                });
+                delete_dialog.show();
                 break;
         }
     }
@@ -92,15 +129,15 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onItemClick(View view, int i) {
-        TabatimeDialog dialog = new TabatimeDialog(this);
-        dialog.setTitle(getResources().getString(R.string.routine));
-        dialog.setCancelBtnClickListener(new View.OnClickListener() {
+        selecet_dialog = new TabatimeDialog(this);
+        selecet_dialog.setTitle(getResources().getString(R.string.routine));
+        selecet_dialog.setCancelBtnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                selecet_dialog.dismiss();
             }
         });
-        dialog.setOkBtnClickListener(new View.OnClickListener() {
+        selecet_dialog.setOkBtnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Applications.preference.put(Preference.EXERCISE, recordList.get(i).getExercise());
@@ -108,9 +145,9 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 Applications.preference.put(Preference.SET, recordList.get(i).getSet());
                 Applications.preference.put(Preference.ROUND, recordList.get(i).getRound());
                 Applications.preference.put(Preference.ROUND_RESET, recordList.get(i).getRound_reset());
-                dialog.dismiss();
+                selecet_dialog.dismiss();
             }
         });
-        dialog.show();
+        selecet_dialog.show();
     }
 }

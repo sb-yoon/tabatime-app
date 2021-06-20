@@ -25,8 +25,9 @@ import Unlike.tabatmie.util.Applications;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class ProgressActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProgressActivity extends AppCompatActivity {
 
     private String TAG = this.getClass().toString();
 
@@ -68,10 +69,6 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void init() {
-        btn_back.setOnClickListener(this);
-        btn_self.setOnClickListener(this);
-        btn_apply.setOnClickListener(this);
-
         try {
             getTitle = getIntent().getStringExtra("title");
             type = getIntent().getStringExtra("dialog_type");
@@ -128,6 +125,7 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
                         int pos = recyclerView.getLayoutManager().getPosition(centerView);
                         boolean changed = pos != snapPosision;
                         if (changed) {
+                            scrollTo(pos, true);
                             selectCnt = Integer.parseInt(progressList.get(pos).getCnt());
                             snapPosision = pos;
                             if (type.equals("1")) {
@@ -176,10 +174,9 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
+    @OnClick({R.id.btn_back, R.id.btn_self, R.id.btn_apply})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
             case R.id.btn_back:
                 onBackPressed();
                 break;

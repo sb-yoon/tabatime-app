@@ -28,8 +28,9 @@ import Unlike.tabatmie.util.Preference;
 import Unlike.tabatmie.util.SoundPoolPlayer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class ExerciseActivity extends AppCompatActivity implements View.OnClickListener {
+public class ExerciseActivity extends AppCompatActivity {
 
     private String TAG = this.getClass().toString();
 
@@ -117,13 +118,6 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
 
     public void init() {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
-        ready_pause.setOnClickListener(this);
-        round_pause.setOnClickListener(this);
-        btn_sound.setOnClickListener(this);
-        btn_action.setOnClickListener(this);
-        btn_exercise_out.setOnClickListener(this);
-        btn_skip.setOnClickListener(this);
 
         if (Applications.preference.getValue(Preference.EXERCISE_PAUSE, Preference.D_PAUSE)) {
             isSwitchPause = true;
@@ -365,10 +359,9 @@ public class ExerciseActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
+    @OnClick({R.id.ready_pause, R.id.round_pause, R.id.btn_sound, R.id.btn_action, R.id.btn_exercise_out, R.id.btn_skip})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
             case R.id.ready_pause:
                 if (ready_pause.isChecked()) {
                     isSwitchPause = true;

@@ -26,10 +26,11 @@ import Unlike.tabatmie.util.CommonUtil;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
-public class SuccessActivity extends AppCompatActivity implements View.OnClickListener {
+public class SuccessActivity extends AppCompatActivity {
 
     private String TAG = this.getClass().toString();
 
@@ -78,9 +79,6 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void init() {
-        btn_success.setOnClickListener(this);
-        layer_finish.setOnClickListener(this);
-
         tv_exercise_record.setText(getResources().getString(R.string.today));
         tv_exercise_time.setText(CommonUtil.getTime(Applications.preference.getValue(Preference.EXERCISE_TIME, 0)));
 
@@ -102,10 +100,9 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
+    @OnClick({R.id.btn_success, R.id.layer_finish})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
             case R.id.btn_success:
                 if (go_login) {
                     go_save = true;
@@ -119,7 +116,7 @@ public class SuccessActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.layer_finish:
-                chkCon();
+                goMain();
                 break;
         }
     }

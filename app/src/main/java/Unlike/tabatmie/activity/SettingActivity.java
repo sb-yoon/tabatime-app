@@ -25,10 +25,11 @@ import Unlike.tabatmie.util.CommonUtil;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
-public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
+public class SettingActivity extends AppCompatActivity {
 
     @BindView(R.id.btn_back)
     RelativeLayout btn_back;
@@ -73,14 +74,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void init() {
-        btn_back.setOnClickListener(this);
-        btn_sound_on.setOnClickListener(this);
-        btn_sound_off.setOnClickListener(this);
-        switch_pause.setOnClickListener(this);
-        btn_terms.setOnClickListener(this);
-        btn_logout.setOnClickListener(this);
-        btn_login.setOnClickListener(this);
-
         if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
             setSound(true);
         } else {
@@ -109,10 +102,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
+    @OnClick({R.id.btn_back, R.id.btn_sound_on, R.id.btn_sound_off, R.id.switch_pause, R.id.btn_terms, R.id.btn_logout, R.id.btn_login})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
             case R.id.btn_back:
                 onBackPressed();
                 break;

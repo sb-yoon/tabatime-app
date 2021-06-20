@@ -23,10 +23,11 @@ import Unlike.tabatmie.util.Applications;
 import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
-public class SplashActivity extends AppCompatActivity implements View.OnClickListener {
+public class SplashActivity extends AppCompatActivity {
 
     private String TAG = this.getClass().toString();
 
@@ -64,18 +65,15 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void init() {
-        btn_login.setOnClickListener(this);
-
         if (!Applications.preference.getValue(Preference.TOKEN, "").isEmpty()) {
             callProfile = new CallRetrofit();
             callProfile.callProfile();
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
+    @OnClick({R.id.btn_login})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
             case R.id.btn_login:
                 if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(SplashActivity.this)) {
                     UserApiClient.getInstance().loginWithKakaoTalk(SplashActivity.this, kLoginCallback);
