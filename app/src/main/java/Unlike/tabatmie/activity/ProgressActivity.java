@@ -56,6 +56,7 @@ public class ProgressActivity extends AppCompatActivity {
     private SnapHelper helper;
     private int snapPosision = RecyclerView.NO_POSITION;
     private int min, max;
+    private int start, center, center_data;
     private int selectCnt;
 
     @Override
@@ -99,8 +100,32 @@ public class ProgressActivity extends AppCompatActivity {
             min = 1;
             max = 20;
         }
+        if (getTitle.equals("exercise")) {
+            center_data = Applications.preference.getValue(Preference.EXERCISE, Preference.D_EXERCISE);
+        } else if (getTitle.equals("rest")) {
+            center_data = Applications.preference.getValue(Preference.REST, Preference.D_REST);
+        } else if (getTitle.equals("set")) {
+            center_data = Applications.preference.getValue(Preference.SET, Preference.D_SET);
+        } else if (getTitle.equals("round")) {
+            center_data = Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND);
+        } else if (getTitle.equals("round_reset")) {
+            center_data = Applications.preference.getValue(Preference.ROUND_RESET, Preference.D_ROUND_RESET);
+        } else {
+            center_data = 0;
+        }
+        if (center_data != 0) {
+            start = center_data;
+            if (type.equals("1")) {
+                center = center_data + 1;
+            } else {
+                center = center_data + 5;
+            }
+        } else {
+            start = min;
+            center = 6;
+        }
 
-        setCntList(min);
+        setCntList(start);
 
         progressAdapter = new ProgressAdapter(progressList);
         layer_cnt.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -109,7 +134,7 @@ public class ProgressActivity extends AppCompatActivity {
             @Override
             public void run() {
                 selectCnt = min;
-                scrollTo(6, false);
+                scrollTo(center, false);
             }
         });
 
@@ -151,6 +176,7 @@ public class ProgressActivity extends AppCompatActivity {
     }
 
     public void setCntList(int center_cnt) {
+        Log.e(TAG, "center_cnt : " + center_cnt);
         if (progressList == null) {
             progressList = new ArrayList<>();
         }

@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btn_menu, R.id.tv_login, R.id.btn_record, R.id.btn_stat, R.id.btn_setting, R.id.btn_start_exercise, R.id.btn_exercise, R.id.btn_rest, R.id.btn_set, R.id.btn_round, R.id.btn_round_reset})
+    @OnClick({R.id.btn_menu, R.id.tv_login, R.id.btn_record, R.id.btn_stat, R.id.btn_setting, R.id.btn_start_exercise, R.id.btn_exercise, R.id.btn_rest, R.id.btn_set, R.id.btn_round, R.id.btn_round_reset, R.id.btn_sound})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_menu:
@@ -200,6 +200,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btn_round_reset:
                 goProgress("round_reset", "1");
+                break;
+            case R.id.btn_sound:
+                if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
+                    Applications.preference.put(Preference.SOUND, false);
+                    tv_sound.setText(getResources().getString(R.string.sound_off));
+                } else {
+                    Applications.preference.put(Preference.SOUND, true);
+                    tv_sound.setText(getResources().getString(R.string.sound_on));
+                }
                 break;
         }
     }
