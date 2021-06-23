@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +29,8 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
     RelativeLayout btn_back;
     @BindView(R.id.btn_delete)
     RelativeLayout btn_delete;
+    @BindView(R.id.tv_delete_info)
+    TextView tv_delete_info;
 
     @BindView(R.id.layer_record)
     RecyclerView layer_record;
@@ -60,7 +63,7 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
     }
 
     public void init() {
-        Applications.preference.put(Preference.DELETE, false);
+        Applications.preference.put(Preference.DELETE, "");
 
         recordList = new ArrayList<>();
 
@@ -88,15 +91,18 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
                 onBackPressed();
                 break;
             case R.id.btn_delete:
-                if (!Applications.preference.getValue(Preference.DELETE, false)) {
-                    Applications.preference.put(Preference.DELETE, true);
-                    layer_delete.setVisibility(View.VISIBLE);
-                    recordAdapter.notifyDataSetChanged();
-                }
+                Applications.preference.put(Preference.DELETE, "Y");
+                btn_delete.setVisibility(View.GONE);
+                layer_delete.setVisibility(View.VISIBLE);
+                tv_delete_info.setVisibility(View.VISIBLE);
+                recordAdapter.notifyDataSetChanged();
                 break;
             case R.id.btn_cancel:
-                Applications.preference.put(Preference.DELETE, false);
+                btn_delete.setVisibility(View.VISIBLE);
                 layer_delete.setVisibility(View.GONE);
+                tv_delete_info.setVisibility(View.GONE);
+
+                Applications.preference.put(Preference.DELETE, "N");
                 recordAdapter.notifyDataSetChanged();
                 break;
             case R.id.btn_record_delete:

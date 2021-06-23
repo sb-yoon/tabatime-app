@@ -85,8 +85,6 @@
             android:id="@+id/layer_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:scrollbars="none" />
 
@@ -127,12 +125,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/nexon_lv_2_gothic"
+                    android:fontFamily="@font/nexon_lv_2_gothic_bold"
                     android:includeFontPadding="false"
                     android:text="@string/btn_delete"
                     android:textColor="@color/white"
                     android:textSize="16dp"
-                    android:textStyle="normal" />
+                    android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

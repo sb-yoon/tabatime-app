@@ -105,7 +105,7 @@
         android:layout_height="62dp"
         android:layout_alignParentBottom="true"
         android:background="@color/main"
-        android:fontFamily="@font/nexon_lv_2_gothic"
+        android:fontFamily="@font/nexon_lv_2_gothic_bold"
         android:gravity="center"
         android:includeFontPadding="false"
         android:text="@string/apply"
