@@ -181,8 +181,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:layout_alignParentBottom="true"
-                                android:layout_marginRight="17dp"
-                                android:layout_marginBottom="16dp"
                                 android:fontFamily="@font/nexon_lv_2_gothic_bold"
                                 android:includeFontPadding="false"
                                 android:text=""

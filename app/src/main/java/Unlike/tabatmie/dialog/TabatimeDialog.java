@@ -226,9 +226,11 @@ public class TabatimeDialog extends Dialog {
                 if (isEnabled) {
                     tv_apply.setTextColor(ContextCompat.getColor(getContext(), R.color.light_gray));
                     btn_apply.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.layer_dailog_apply));
+                    btn_apply.setClickable(false);
                 } else {
                     tv_apply.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                     btn_apply.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.layer_dailog_apply_active));
+                    btn_apply.setClickable(true);
                 }
             }
 

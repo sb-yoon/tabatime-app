@@ -14,11 +14,17 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
 import androidx.core.content.ContextCompat;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import Unlike.tabatmie.R;
 import Unlike.tabatmie.util.Applications;
@@ -35,7 +41,7 @@ public class ExerciseActivity extends AppCompatActivity {
     private String TAG = this.getClass().toString();
 
     @BindView(R.id.layer_exercise)
-    RelativeLayout layer_exercise;
+    LinearLayout layer_exercise;
 
     @BindView(R.id.tv_exercise_title)
     TextView tv_exercise_title;
@@ -81,17 +87,24 @@ public class ExerciseActivity extends AppCompatActivity {
     RelativeLayout btn_exercise_out;
     @BindView(R.id.btn_skip)
     RelativeLayout btn_skip;
+    @BindView(R.id.layer_exercise_time)
+    RelativeLayout layer_exercise_time;
+    @BindView(R.id.tv_exercise_time)
+    TextView tv_exercise_time;
     private SoundPoolPlayer mPlayer;
 
-    private int ready, exercise, rest, set, round, round_reset;
+    private int exercise_time, ready, exercise, rest, set, round, round_reset;
     private int max_set, max_round;
 
     private ValueAnimator progressTimer;
     private ExerciseTimerPause timer;
+    private ExerciseTimerPause exercise_timer;
     private boolean isExercise = false;
-    private boolean isExerciseStart = false;
+    private boolean isStart = false;
     private boolean isActionPause = false;
     private boolean isSwitchPause = true;
+
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +121,7 @@ public class ExerciseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (isSwitchPause && isExerciseStart && !isActionPause) {
+        if (isSwitchPause && isStart && !isActionPause) {
             resumeTimer();
             if (mPlayer != null) {
                 mPlayer.play();
@@ -117,6 +130,20 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
     public void init() {
+
+        try {
+            mAdView = findViewById(R.id.adView);
+            MobileAds.initialize(this, new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+                    AdRequest adRequest = new AdRequest.Builder().build();
+                    mAdView.loadAd(adRequest);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         if (Applications.preference.getValue(Preference.EXERCISE_PAUSE, Preference.D_PAUSE)) {
@@ -127,15 +154,16 @@ public class ExerciseActivity extends AppCompatActivity {
             ready_pause.setChecked(false);
         }
 
+        exercise_time = Applications.preference.getValue(Preference.EXERCISE_TIME, Preference.D_EXERCISE_TIME);
         ready = Preference.D_READY;
         exercise = Applications.preference.getValue(Preference.EXERCISE, Preference.D_EXERCISE);
         rest = Applications.preference.getValue(Preference.REST, Preference.D_REST);
-        set = Applications.preference.getValue(Preference.SET, Preference.D_SET);
-        round = Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND);
+        set = 1;
+        round = 1;
         round_reset = Applications.preference.getValue(Preference.ROUND_RESET, Preference.D_ROUND_RESET);
 
-        max_set = set;
-        max_round = round;
+        max_set = Applications.preference.getValue(Preference.SET, Preference.D_SET);
+        max_round = Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND);
 
         tv_set_total_num.setText(getResources().getString(R.string.total_num, max_set + ""));
         tv_round_total_num.setText(getResources().getString(R.string.total_num, max_round + ""));
@@ -162,6 +190,7 @@ public class ExerciseActivity extends AppCompatActivity {
         }
 
         btn_exercise_out.setVisibility(View.GONE);
+        layer_exercise_time.setVisibility(View.INVISIBLE);
     }
 
     public void setReady() {
@@ -180,13 +209,18 @@ public class ExerciseActivity extends AppCompatActivity {
 
         iv_play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_pink));
         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_pink));
-        btn_skip.setVisibility(View.INVISIBLE);
+        btn_skip.setVisibility(View.VISIBLE);
 
-        startTimer(ready);
-        isExerciseStart = true;
+        startTimer(ready, false);
+        isStart = true;
     }
 
     public void setExercise() {
+        Log.e(TAG, "setExercise");
+        if (set == 1 && exercise_timer != null) {
+            exercise_timer.resume();
+        }
+
         isExercise = true;
         layer_exercise.setBackgroundColor(ContextCompat.getColor(this, R.color.main));
 
@@ -207,18 +241,17 @@ public class ExerciseActivity extends AppCompatActivity {
         iv_play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_blue));
         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_blue));
         btn_skip.setVisibility(View.INVISIBLE);
+        layer_exercise_time.setVisibility(View.VISIBLE);
 
-        startTimer(exercise);
-        set--;
+        set++;
+        startTimer(exercise, true);
     }
 
     public void setRest() {
+        Log.e(TAG, "setRest");
         layer_exercise.setBackgroundColor(ContextCompat.getColor(this, R.color.defalut_black));
 
         tv_exercise_title.setText(getResources().getString(R.string.exercise_rest));
-
-        tv_set_num.setText(set + "");
-        tv_round_num.setText(round + "");
 
         progressbar.setMax(rest * 1000);
         tv_time.setText(CommonUtil.getTime(rest));
@@ -227,10 +260,13 @@ public class ExerciseActivity extends AppCompatActivity {
         iv_play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_navy));
         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_navy));
 
-        startTimer(rest);
+        startTimer(rest, false);
     }
 
     public void setRoundReset() {
+        if (exercise_timer != null) {
+            exercise_timer.pause();
+        }
         layer_exercise.setBackgroundColor(ContextCompat.getColor(this, R.color.pink));
 
         tv_exercise_title.setText(getResources().getString(R.string.title_round_reset));
@@ -252,18 +288,19 @@ public class ExerciseActivity extends AppCompatActivity {
         iv_play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_round_pink));
         iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_roundpink));
         btn_skip.setVisibility(View.VISIBLE);
+        layer_exercise_time.setVisibility(View.INVISIBLE);
 
-        startTimer(round_reset);
+        startTimer(round_reset, false);
     }
 
     public void chkExerciseStep() {
         boolean isReset = false;
-        if (set == 0) {
-            round--;
-            set = max_set;
+        if (set == (max_set + 1)) {
+            round++;
+            set = 1;
             isReset = true;
         }
-        if (round == 0) {
+        if (round == (max_round + 1)) {
             goSuccess();
         } else {
             if (isExercise) {
@@ -327,15 +364,38 @@ public class ExerciseActivity extends AppCompatActivity {
         timer.create();
     }
 
-    public void startTimer(int time) {
+    public void setExerciseTime(int time) {
+        int sec = time * 1000;
+        tv_exercise_time.setText(CommonUtil.getTime(time));
+        exercise_timer = new ExerciseTimerPause(sec, 1000, true) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long count = millisUntilFinished / 1000;
+                tv_exercise_time.setText(getResources().getString(R.string.remain, CommonUtil.getTime((int) count)));
+            }
+
+            @Override
+            public void onFinish() {
+                Log.e(TAG, "onFinish");
+                tv_exercise_time.setText(CommonUtil.getTime(0));
+            }
+        };
+        exercise_timer.create();
+    }
+
+    public void startTimer(int time, boolean start) {
         setProgressTime(time);
         setTime(time);
+        if (start && exercise_timer == null) {
+            setExerciseTime(exercise_time);
+        }
     }
 
     public void pauseTimer() {
         try {
             progressTimer.pause();
             timer.pause();
+            exercise_timer.pause();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -345,6 +405,7 @@ public class ExerciseActivity extends AppCompatActivity {
         try {
             progressTimer.resume();
             timer.resume();
+            exercise_timer.resume();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -354,6 +415,7 @@ public class ExerciseActivity extends AppCompatActivity {
         try {
             progressTimer.cancel();
             timer.cancel();
+            exercise_timer.cancel();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -453,6 +515,7 @@ public class ExerciseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         timer.cancel();
+        exercise_timer.cancel();
     }
 
     public void goSuccess() {

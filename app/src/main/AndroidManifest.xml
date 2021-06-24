@@ -65,5 +65,9 @@
                     android:scheme="@string/kakao_app_key_man" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/google_app_name" />
     </application>
 </manifest>

@@ -1,5 +1,6 @@
 package Unlike.tabatmie.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -152,8 +153,15 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
                 Applications.preference.put(Preference.ROUND, recordList.get(i).getRound());
                 Applications.preference.put(Preference.ROUND_RESET, recordList.get(i).getRound_reset());
                 selecet_dialog.dismiss();
+                goMain();
             }
         });
         selecet_dialog.show();
+    }
+
+    public void goMain() {
+        Intent intent = new Intent(RecordActivity.this, MainActivity.class);
+        startActivity(intent);
+        onBackPressed();
     }
 }

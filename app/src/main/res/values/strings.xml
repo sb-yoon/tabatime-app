@@ -61,6 +61,7 @@
     <string name="exercising">운동</string>
     <string name="exercise_rest">휴식</string>
     <string name="skip">SKIP</string>
+    <string name="remain">남은 시간 %1$s</string>
     <!--exercise-->
 
     <!--success-->
