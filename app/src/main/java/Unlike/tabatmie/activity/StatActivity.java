@@ -76,7 +76,7 @@ public class StatActivity extends AppCompatActivity implements Animator.Animator
         tv_comment.setText(getResources().getString(R.string.user_now));
         tv_lank.setVisibility(View.VISIBLE);
         tv_lank.setText(getResources().getString(R.string.lank, lank + "") + "%");
-        setProgressAnim(lank);
+        setProgressAnim(100 - lank);
         setCntAnim(cnt);
         setTimeAnim(time);
     }

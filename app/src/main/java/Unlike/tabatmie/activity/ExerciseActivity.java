@@ -14,17 +14,11 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
 import androidx.core.content.ContextCompat;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import Unlike.tabatmie.R;
 import Unlike.tabatmie.util.Applications;
@@ -100,11 +94,12 @@ public class ExerciseActivity extends AppCompatActivity {
     private ExerciseTimerPause timer;
     private ExerciseTimerPause exercise_timer;
     private boolean isExercise = false;
+    private boolean isLastRest = false;
     private boolean isStart = false;
     private boolean isActionPause = false;
     private boolean isSwitchPause = true;
 
-    private AdView mAdView;
+    //private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,14 +127,14 @@ public class ExerciseActivity extends AppCompatActivity {
     public void init() {
 
         try {
-            mAdView = findViewById(R.id.adView);
+            /*mAdView = findViewById(R.id.adView);
             MobileAds.initialize(this, new OnInitializationCompleteListener() {
                 @Override
                 public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
                     AdRequest adRequest = new AdRequest.Builder().build();
                     mAdView.loadAd(adRequest);
                 }
-            });
+            });*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -295,11 +290,19 @@ public class ExerciseActivity extends AppCompatActivity {
 
     public void chkExerciseStep() {
         boolean isReset = false;
-        if (set == (max_set + 1)) {
-            round++;
-            set = 1;
-            isReset = true;
+        if (max_round == 1 || round == max_round) {
+            if (set == (max_set + 1)) {
+                round++;
+                set = 1;
+                isReset = true;
+            }
+        } else {
+            if (set == (max_set + 1)) {
+                isLastRest = true;
+                isReset = false;
+            }
         }
+
         if (round == (max_round + 1)) {
             goSuccess();
         } else {
@@ -311,7 +314,14 @@ public class ExerciseActivity extends AppCompatActivity {
                     setRest();
                 }
             } else {
-                setExercise();
+                if (isLastRest) {
+                    isLastRest = false;
+                    round++;
+                    set = 1;
+                    setRoundReset();
+                } else {
+                    setExercise();
+                }
             }
         }
     }
@@ -477,7 +487,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.btn_exercise_out:
-                onBackPressed();
+                goBack();
                 break;
             case R.id.btn_skip:
                 if (mPlayer != null) {
@@ -492,7 +502,10 @@ public class ExerciseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
+    }
+
+    public void goBack() {
         if (mPlayer != null) {
             mPlayer.stop();
             mPlayer = null;

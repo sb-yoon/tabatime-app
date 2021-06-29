@@ -94,8 +94,7 @@ public class MainActivity extends AppCompatActivity {
         int set = Applications.preference.getValue(Preference.SET, Preference.D_SET);
         int round = Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND);
         int round_reset = Applications.preference.getValue(Preference.ROUND_RESET, Preference.D_ROUND_RESET);
-        //int exercise_time = (exercise + rest) * set * round - rest;
-        int exercise_time = ((exercise * set) + (rest * (set - 1))) * round;
+        int exercise_time = (exercise + rest) * set * round - rest;
         Applications.preference.put(Preference.EXERCISE_TIME, exercise_time);
 
         tv_exercise_time.setText(CommonUtil.getTime(exercise_time));

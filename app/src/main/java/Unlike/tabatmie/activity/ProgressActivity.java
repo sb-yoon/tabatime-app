@@ -249,6 +249,7 @@ public class ProgressActivity extends AppCompatActivity {
                             onBackPressed();
                         }
                     });
+                    tabatimeDialog.setCancelable(false);
                     tabatimeDialog.show();
                 }
                 break;
@@ -278,7 +279,7 @@ public class ProgressActivity extends AppCompatActivity {
         }
     }
 
-    public void scrollTo(int position, boolean smooth) {
+    public boolean scrollTo(int position, boolean smooth) {
         Log.e(TAG, "scrollTo : " + position);
         if (layer_cnt.getLayoutManager() != null) {
             if (smooth) {
@@ -306,11 +307,13 @@ public class ProgressActivity extends AppCompatActivity {
                 if (smoothScroller != null) {
                     smoothScroller.setTargetPosition(position);
                     layer_cnt.getLayoutManager().startSmoothScroll(smoothScroller);
+                    return true;
                 }
             } else {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layer_cnt.getLayoutManager();
-                if (linearLayoutManager != null)
+                if (linearLayoutManager != null) {
                     linearLayoutManager.scrollToPositionWithOffset(position, 0);
+                }
 
                 layer_cnt.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
@@ -320,11 +323,14 @@ public class ProgressActivity extends AppCompatActivity {
                             int[] distances = helper.calculateDistanceToFinalSnap(layer_cnt.getLayoutManager(), viewHolder.itemView);
                             Log.e(TAG, "scroll) " + distances[0] + ":" + distances[1]);
                             layer_cnt.scrollBy(distances[0], distances[1]);
+
                         }
                     }
                 });
+                return true;
             }
         }
+        return false;
     }
 
     public void setData(int result) {

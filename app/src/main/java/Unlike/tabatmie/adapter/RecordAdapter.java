@@ -87,7 +87,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     float distance = context.getResources().getDimensionPixelSize(R.dimen.mt36);
                     TranslateAnimation moveAnim = new TranslateAnimation(0, distance, 0, 0);
-                    moveAnim.setDuration(1000);
+                    moveAnim.setDuration(500);
                     moveAnim.setFillAfter(true);
                     recordViewHolder.layer_record.setAnimation(moveAnim);
                     moveAnim.start();
@@ -96,7 +96,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     float distance = context.getResources().getDimensionPixelSize(R.dimen.mt36);
                     TranslateAnimation moveAnim = new TranslateAnimation(distance, 0, 0, 0);
-                    moveAnim.setDuration(1000);
+                    moveAnim.setDuration(500);
                     moveAnim.setFillAfter(true);
                     recordViewHolder.layer_record.setAnimation(moveAnim);
                     moveAnim.start();

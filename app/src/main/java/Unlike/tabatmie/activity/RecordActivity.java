@@ -122,6 +122,7 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
                         delete_dialog.dismiss();
                     }
                 });
+                delete_dialog.setCancelable(false);
                 delete_dialog.show();
                 break;
         }
@@ -156,6 +157,7 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
                 goMain();
             }
         });
+        selecet_dialog.setCancelable(false);
         selecet_dialog.show();
     }
 

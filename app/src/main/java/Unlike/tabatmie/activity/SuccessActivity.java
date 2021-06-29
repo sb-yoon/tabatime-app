@@ -214,6 +214,7 @@ public class SuccessActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        dialog.setCancelable(false);
         dialog.show();
     }
 
