@@ -12,20 +12,13 @@
         android:layout_marginLeft="16dp"
         android:visibility="visible">
 
-        <ToggleButton
+        <CheckBox
             android:id="@+id/btn_checked"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/transparent"
-            android:checked="false"
-            android:textOff=""
-            android:textOn="" />
-
-        <ImageView
-            android:id="@+id/iv_checked"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_check_off" />
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_centerVertical="true"
+            android:button="@drawable/check_delete"
+            android:checked="false" />
     </RelativeLayout>
 
     <LinearLayout

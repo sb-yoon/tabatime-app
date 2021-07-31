@@ -81,12 +81,33 @@
         android:layout_marginTop="16dp"
         android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/layer_record"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scrollbars="none" />
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/recycler_layer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/layer_record"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scrollbars="none" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/layer_record_delete"
+                    android:layout_width="16dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:scrollbars="none"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
             android:id="@+id/layer_delete"

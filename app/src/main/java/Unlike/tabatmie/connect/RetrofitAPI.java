@@ -28,6 +28,9 @@ public interface RetrofitAPI {
     @GET("/api/v1/routine")
     Call<JsonArrayDTO> record(@Header("Authorization") String token);
 
+    @POST("/api/v1/routine/delete")
+    Call<JsonObjectDTO> recordDelete(@Header("Authorization") String token, @Body HashMap<String, Object> map);
+
     @GET("/api/v1/routine/statistics")
     Call<JsonObjectDTO> statistics(@Header("Authorization") String token);
 }

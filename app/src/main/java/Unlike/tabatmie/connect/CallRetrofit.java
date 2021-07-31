@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import Unlike.tabatmie.Dto.BasicDTO;
 import Unlike.tabatmie.Dto.JsonArrayDTO;
@@ -180,7 +181,7 @@ public class CallRetrofit {
                 if (code == 200) {
                     try {
                         String rst = record.getData().toString();
-                        Applications.setRecord(setRecordList(rst));
+                        Applications.setRecord(setRecordList(rst), false);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -213,8 +214,60 @@ public class CallRetrofit {
                                 jo.getInt("setCnt"),
                                 jo.getInt("roundCnt"),
                                 jo.getInt("roundTime"),
-                                date,
-                                false));
+                                date));
+            }
+        }
+        return recordList;
+    }
+
+    public void callRecordDelete(List<Integer> deleteList, ArrayList<RecordDTO> recordList) {
+        HashMap<String, Object> deleteMap = new HashMap<>();
+        deleteMap.put("routineIds", deleteList);
+        Call<JsonObjectDTO> call = RetrofitClient.getApiService().recordDelete(getToken(), deleteMap);
+        call.enqueue(new Callback<JsonObjectDTO>() {
+            @Override
+            public void onResponse(Call<JsonObjectDTO> call, Response<JsonObjectDTO> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("fail", "error code : " + response.code());
+                    return;
+                }
+                JsonObjectDTO recordDelete = response.body();
+                int code = recordDelete.getCode();
+                if (code == 200) {
+                    try {
+                        Applications.setRecord(updateRecordList(deleteList, recordList), true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else if (code == 401) {
+                    CommonUtil.logout();
+                    Applications.refreshActivity();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObjectDTO> call, Throwable t) {
+                Log.e("onFailure", t.getMessage());
+            }
+        });
+    }
+
+    public ArrayList<RecordDTO> updateRecordList(List<Integer> deleteList, ArrayList<RecordDTO> recordList) throws Exception {
+        List<Integer> idxList = new ArrayList<>();
+        //Log.e("RecordActivity", recordList.size() +"");
+        for (int i = 0; i < recordList.size(); i++) {
+            int idx = recordList.get(i).getId();
+            for (int j = 0; j < deleteList.size(); j++) {
+                int deleteIdx = deleteList.get(j);
+                if (idx == deleteIdx) {
+                    idxList.add(i);
+                }
+            }
+        }
+        if (!idxList.isEmpty()) {
+            //Log.e("RecordActivity", idxList.toString());
+            for (int i = 0; i < idxList.size(); i++) {
+                recordList.remove(i);
             }
         }
         return recordList;

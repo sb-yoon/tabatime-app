@@ -350,14 +350,16 @@ public class ExerciseActivity extends AppCompatActivity {
                 tv_time.setText(CommonUtil.getTime((int) count));
                 try {
                     if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND) && count == 3) {
-                        mPlayer = SoundPoolPlayer.create(ExerciseActivity.this, R.raw.countdown);
-                        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mediaPlayer) {
-                                mPlayer = null;
-                            }
-                        });
-                        mPlayer.play();
+                        if (mPlayer == null) {
+                            mPlayer = SoundPoolPlayer.create(ExerciseActivity.this, R.raw.countdown);
+                            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                @Override
+                                public void onCompletion(MediaPlayer mediaPlayer) {
+                                    mPlayer = null;
+                                }
+                            });
+                            mPlayer.play();
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -527,8 +529,16 @@ public class ExerciseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        timer.cancel();
-        exercise_timer.cancel();
+        try {
+            if (timer != null) {
+                timer.cancel();
+            }
+            if (exercise_timer != null) {
+                exercise_timer.cancel();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void goSuccess() {

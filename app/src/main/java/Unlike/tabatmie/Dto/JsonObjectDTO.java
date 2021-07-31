@@ -17,23 +17,11 @@ public class JsonObjectDTO {
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public JsonObject getData() {
         return data;
-    }
-
-    public void setData(JsonObject data) {
-        this.data = data;
     }
 }

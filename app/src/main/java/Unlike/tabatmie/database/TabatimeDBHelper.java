@@ -49,7 +49,7 @@ public class TabatimeDBHelper {
         }
     }
 
-    public void initDatabase(){
+    public void initDatabase() {
         open();
     }
 }

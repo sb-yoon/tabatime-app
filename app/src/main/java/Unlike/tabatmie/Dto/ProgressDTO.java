@@ -14,15 +14,7 @@ public class ProgressDTO {
         return cnt;
     }
 
-    public void setCnt(String cnt) {
-        this.cnt = cnt;
-    }
-
     public boolean isCenter() {
         return center;
-    }
-
-    public void setCenter(boolean center) {
-        this.center = center;
     }
 }

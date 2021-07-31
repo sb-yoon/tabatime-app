@@ -35,9 +35,6 @@ public class Preference {
     public static final String GO_ROUTINE = "go_routine";
     public static final String SAVE_SUCCESS = "save_success";
 
-    public static final String DELETE = "delete";
-
-
     private static Context context;
 
     private final static String VERSION = "";

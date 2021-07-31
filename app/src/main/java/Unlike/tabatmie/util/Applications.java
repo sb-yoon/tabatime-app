@@ -6,8 +6,6 @@ import android.content.Context;
 
 import com.kakao.sdk.common.KakaoSdk;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 
 import Unlike.tabatmie.Dto.RecordDTO;
@@ -98,11 +96,11 @@ public class Applications extends Application {
         }
     }
 
-    public static void setRecord(ArrayList<RecordDTO> recordList) {
+    public static void setRecord(ArrayList<RecordDTO> recordList, boolean isupdate) {
         try {
             if (refreshActivity != null) {
                 if (refreshActivity instanceof RecordActivity) {
-                    ((RecordActivity) refreshActivity).setRecord(recordList);
+                    ((RecordActivity) refreshActivity).setRecord(recordList, isupdate);
                 }
             }
         } catch (Exception e) {

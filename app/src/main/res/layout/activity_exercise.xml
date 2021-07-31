@@ -374,9 +374,8 @@
                 android:layout_below="@id/layer_action"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="65dp"
                 android:background="@drawable/layer_white_round_4"
-                android:visibility="invisible">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_exercise_time"
@@ -390,6 +389,18 @@
                     android:textSize="14dp"
                     android:textStyle="bold" />
             </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/layer_action"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="54dp"
+                android:layout_marginBottom="65dp"
+                android:background="@color/black"
+                android:gravity="center"
+                android:text="광고"
+                android:textColor="@color/white" />
         </RelativeLayout>
     </RelativeLayout>
 
