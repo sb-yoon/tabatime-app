@@ -60,6 +60,8 @@ public class SuccessActivity extends AppCompatActivity {
     private CallRetrofit callLogin;
     private CallRetrofit callRecord;
 
+    private TabatimeDialog error_dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,10 +84,10 @@ public class SuccessActivity extends AppCompatActivity {
         tv_exercise_record.setText(getResources().getString(R.string.today));
         tv_exercise_time.setText(CommonUtil.getTime(Applications.preference.getValue(Preference.EXERCISE_TIME, 0)));
 
-        tv_exercise.setText(CommonUtil.getTime(Applications.preference.getValue(Preference.EXERCISE, Preference.D_EXERCISE)));
-        tv_rest.setText(CommonUtil.getTime(Applications.preference.getValue(Preference.REST, Preference.D_REST)));
-        tv_set.setText(Applications.preference.getValue(Preference.SET, Preference.D_SET) + "");
-        tv_round.setText(Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND) + "");
+        tv_exercise.setText(CommonUtil.getTime(Applications.preference.getValue(Preference.EXERCISE, CommonUtil.D_EXERCISE)));
+        tv_rest.setText(CommonUtil.getTime(Applications.preference.getValue(Preference.REST, CommonUtil.D_REST)));
+        tv_set.setText(String.valueOf(Applications.preference.getValue(Preference.SET, CommonUtil.D_SET)));
+        tv_round.setText(String.valueOf(Applications.preference.getValue(Preference.ROUND, CommonUtil.D_ROUND)));
 
         go_login = Applications.preference.getValue(Preference.TOKEN, "").isEmpty();
         if (go_login) {
@@ -130,18 +132,6 @@ public class SuccessActivity extends AppCompatActivity {
             Applications.preference.put(Preference.SAVE_SUCCESS, false);
             goMain();
         }
-    }
-
-    public void goMain() {
-        Intent intent = new Intent(SuccessActivity.this, MainActivity.class);
-        startActivity(intent);
-        onBackPressed();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 
     Function2<OAuthToken, Throwable, Unit> kLoginCallback = new Function2<OAuthToken, Throwable, Unit>() {
@@ -194,33 +184,54 @@ public class SuccessActivity extends AppCompatActivity {
     }
 
     public void tryAgain() {
-        TabatimeDialog dialog = new TabatimeDialog(this);
-        dialog.setDialogType(0);
-        dialog.setTitle(getResources().getString(R.string.error));
-        dialog.setCancelBtnClickListener(getResources().getString(R.string.try_again), new View.OnClickListener() {
+        error_dialog = new TabatimeDialog(this);
+        error_dialog.setDialogType(0);
+        error_dialog.setTitle(getResources().getString(R.string.error));
+        error_dialog.setCancelBtnClickListener(getResources().getString(R.string.try_again), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (callRecord == null) {
                     callRecord = new CallRetrofit();
                 }
                 callRecord.callRoutine(true);
-                dialog.dismiss();
+                error_dialog.dismiss();
             }
         });
-        dialog.setOkBtnClickListener(getResources().getString(R.string.no_save), new View.OnClickListener() {
+        error_dialog.setOkBtnClickListener(getResources().getString(R.string.no_save), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                error_dialog.dismiss();
                 onBackPressed();
             }
         });
-        dialog.setCancelable(false);
-        dialog.show();
+        error_dialog.setCancelable(false);
+        error_dialog.show();
+    }
+
+    public void goMain() {
+        Intent intent = new Intent(SuccessActivity.this, MainActivity.class);
+        startActivity(intent);
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Applications.preference.put(Preference.SAVE_SUCCESS, false);
+
+        try {
+            if (error_dialog != null && error_dialog.isShowing()) {
+                error_dialog.dismiss();
+                error_dialog = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

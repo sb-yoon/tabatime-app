@@ -22,6 +22,8 @@ import retrofit2.Response;
 
 public class CallRetrofit {
 
+    private String TAG = this.getClass().toString();
+
     private HashMap<String, Object> map;
 
     public void setHashMap(HashMap<String, Object> map) {
@@ -39,7 +41,7 @@ public class CallRetrofit {
             @Override
             public void onResponse(Call<JsonObjectDTO> call, Response<JsonObjectDTO> response) {
                 if (!response.isSuccessful()) {
-                    Log.e("fail", "error code : " + response.code());
+                    Log.e(TAG, "fail error code : " + response.code());
                     return;
                 }
                 JsonObjectDTO login = response.body();
@@ -50,7 +52,7 @@ public class CallRetrofit {
                     try {
                         String rst = login.getData().toString();
                         JSONObject jo = new JSONObject(rst);
-                        Log.e("token", jo.getString("token"));
+                        Log.e(TAG, "token" + jo.getString("token"));
                         Applications.preference.put(Preference.TOKEN, "Bearer " + jo.getString("token"));
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -65,7 +67,7 @@ public class CallRetrofit {
 
             @Override
             public void onFailure(Call<JsonObjectDTO> call, Throwable t) {
-                Log.e("onFailure", t.getMessage());
+                Log.e(TAG, "onFailure : " + t.getMessage());
             }
         });
     }
@@ -76,7 +78,7 @@ public class CallRetrofit {
             @Override
             public void onResponse(Call<BasicDTO> call, Response<BasicDTO> response) {
                 if (!response.isSuccessful()) {
-                    Log.e("fail", "error code : " + response.code());
+                    Log.e(TAG, "fail error code : " + response.code());
                     return;
                 }
                 BasicDTO sign = response.body();
@@ -90,7 +92,7 @@ public class CallRetrofit {
 
             @Override
             public void onFailure(Call<BasicDTO> call, Throwable t) {
-                Log.e("onFailure", t.getMessage());
+                Log.e(TAG, "onFailure : " + t.getMessage());
             }
         });
     }
@@ -101,7 +103,7 @@ public class CallRetrofit {
             @Override
             public void onResponse(Call<JsonObjectDTO> call, Response<JsonObjectDTO> response) {
                 if (!response.isSuccessful()) {
-                    Log.e("fail", "error code : " + response.code());
+                    Log.e(TAG, "fail error code : " + response.code());
                     return;
                 }
                 JsonObjectDTO profile = response.body();
@@ -114,25 +116,25 @@ public class CallRetrofit {
 
             @Override
             public void onFailure(Call<JsonObjectDTO> call, Throwable t) {
-                Log.e("onFailure", t.getMessage());
+                Log.e(TAG, "onFailure : " + t.getMessage());
             }
         });
     }
 
     public void callRoutine(boolean tryAgain) {
         HashMap<String, Object> routineMap = new HashMap<>();
-        routineMap.put("exerciseTime", Applications.preference.getValue(Preference.EXERCISE, Preference.D_EXERCISE));
-        routineMap.put("restTime", Applications.preference.getValue(Preference.REST, Preference.D_REST));
-        routineMap.put("setCnt", Applications.preference.getValue(Preference.SET, Preference.D_SET));
-        routineMap.put("roundCnt", Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND));
-        routineMap.put("roundTime", Applications.preference.getValue(Preference.ROUND_RESET, Preference.D_ROUND_RESET));
-        routineMap.put("totalTime", Applications.preference.getValue(Preference.EXERCISE_TIME, Preference.D_EXERCISE_TIME));
+        routineMap.put("exerciseTime", Applications.preference.getValue(Preference.EXERCISE, CommonUtil.D_EXERCISE));
+        routineMap.put("restTime", Applications.preference.getValue(Preference.REST, CommonUtil.D_REST));
+        routineMap.put("setCnt", Applications.preference.getValue(Preference.SET, CommonUtil.D_SET));
+        routineMap.put("roundCnt", Applications.preference.getValue(Preference.ROUND, CommonUtil.D_ROUND));
+        routineMap.put("roundTime", Applications.preference.getValue(Preference.ROUND_RESET, CommonUtil.D_ROUND_RESET));
+        routineMap.put("totalTime", Applications.preference.getValue(Preference.EXERCISE_TIME, CommonUtil.D_EXERCISE_TIME));
         Call<BasicDTO> call = RetrofitClient.getApiService().routine(getToken(), routineMap);
         call.enqueue(new Callback<BasicDTO>() {
             @Override
             public void onResponse(Call<BasicDTO> call, Response<BasicDTO> response) {
                 if (!response.isSuccessful()) {
-                    Log.e("fail", "error code : " + response.code());
+                    Log.e(TAG, "fail error code : " + response.code());
                     if (tryAgain) {
                         Applications.tryAgain();
                     }
@@ -141,7 +143,7 @@ public class CallRetrofit {
                 BasicDTO routine = response.body();
                 int code = routine.getCode();
                 if (code == 200) {
-                    Log.e("routine", "" + Applications.preference.getValue(Preference.GO_ROUTINE, false));
+                    Log.e(TAG, "routine : " + Applications.preference.getValue(Preference.GO_ROUTINE, false));
                     if (Applications.preference.getValue(Preference.GO_ROUTINE, false)) {
                         Applications.preference.put(Preference.GO_ROUTINE, false);
                         Applications.refreshActivity();
@@ -159,7 +161,7 @@ public class CallRetrofit {
 
             @Override
             public void onFailure(Call<BasicDTO> call, Throwable t) {
-                Log.e("onFailure", t.getMessage());
+                Log.e(TAG, "onFailure : " + t.getMessage());
                 if (tryAgain) {
                     Applications.tryAgain();
                 }
@@ -173,7 +175,7 @@ public class CallRetrofit {
             @Override
             public void onResponse(Call<JsonArrayDTO> call, Response<JsonArrayDTO> response) {
                 if (!response.isSuccessful()) {
-                    Log.e("fail", "error code : " + response.code());
+                    Log.e(TAG, "fail error code : " + response.code());
                     return;
                 }
                 JsonArrayDTO record = response.body();
@@ -193,7 +195,7 @@ public class CallRetrofit {
 
             @Override
             public void onFailure(Call<JsonArrayDTO> call, Throwable t) {
-                Log.e("onFailure", t.getMessage());
+                Log.e(TAG, "onFailure : " + t.getMessage());
             }
         });
     }
@@ -228,7 +230,7 @@ public class CallRetrofit {
             @Override
             public void onResponse(Call<JsonObjectDTO> call, Response<JsonObjectDTO> response) {
                 if (!response.isSuccessful()) {
-                    Log.e("fail", "error code : " + response.code());
+                    Log.e(TAG, "fail error code : " + response.code());
                     return;
                 }
                 JsonObjectDTO recordDelete = response.body();
@@ -247,14 +249,13 @@ public class CallRetrofit {
 
             @Override
             public void onFailure(Call<JsonObjectDTO> call, Throwable t) {
-                Log.e("onFailure", t.getMessage());
+                Log.e(TAG, "onFailure : " + t.getMessage());
             }
         });
     }
 
     public ArrayList<RecordDTO> updateRecordList(List<Integer> deleteList, ArrayList<RecordDTO> recordList) throws Exception {
         List<Integer> idxList = new ArrayList<>();
-        //Log.e("RecordActivity", recordList.size() +"");
         for (int i = 0; i < recordList.size(); i++) {
             int idx = recordList.get(i).getId();
             for (int j = 0; j < deleteList.size(); j++) {
@@ -265,7 +266,6 @@ public class CallRetrofit {
             }
         }
         if (!idxList.isEmpty()) {
-            //Log.e("RecordActivity", idxList.toString());
             for (int i = 0; i < idxList.size(); i++) {
                 recordList.remove(i);
             }
@@ -279,7 +279,7 @@ public class CallRetrofit {
             @Override
             public void onResponse(Call<JsonObjectDTO> call, Response<JsonObjectDTO> response) {
                 if (!response.isSuccessful()) {
-                    Log.e("fail", "error code : " + response.code());
+                    Log.e(TAG, "fail error code : " + response.code());
                     return;
                 }
                 JsonObjectDTO record = response.body();
@@ -302,7 +302,7 @@ public class CallRetrofit {
 
             @Override
             public void onFailure(Call<JsonObjectDTO> call, Throwable t) {
-                Log.e("onFailure", t.getMessage());
+                Log.e(TAG, "onFailure : " + t.getMessage());
             }
         });
     }

@@ -7,11 +7,11 @@ import android.media.SoundPool;
 import android.os.Handler;
 import android.util.Log;
 
-/* SoundPoolPlayer:
+/** SoundPoolPlayer:
    custom extention from SoundPool with setOnCompletionListener
    without the low-efficiency drawback of MediaPlayer
    author: kenliu
-*/
+**/
 public class SoundPoolPlayer extends SoundPool {
     Context context;
     int soundId;

@@ -38,6 +38,21 @@ import kotlin.jvm.functions.Function1;
 
 public class CommonUtil {
 
+    public static final int D_EXERCISE_TIME = 190;
+    public static final int D_EXERCISE = 30;
+    public static final int D_REST = 10;
+    public static final int D_SET = 5;
+    public static final int D_ROUND = 1;
+    public static final int D_ROUND_RESET = 10;
+    public static final boolean D_SOUND = true;
+    public static final int D_READY = 5;
+    public static final boolean D_PAUSE = true;
+
+    public static final int D_SEC_MAX = 180;
+    public static final int D_SEC_MIN = 5;
+    public static final int D_COUNT_MAX = 20;
+    public static final int D_COUNT_MIN = 1;
+
     public static String setComma(String number, boolean type, boolean isPlus) {
         try {
             if (number == null || number.equals("")) {

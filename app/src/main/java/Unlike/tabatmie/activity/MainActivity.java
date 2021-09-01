@@ -89,21 +89,21 @@ public class MainActivity extends AppCompatActivity {
 
         refresh();
 
-        int exercise = Applications.preference.getValue(Preference.EXERCISE, Preference.D_EXERCISE);
-        int rest = Applications.preference.getValue(Preference.REST, Preference.D_REST);
-        int set = Applications.preference.getValue(Preference.SET, Preference.D_SET);
-        int round = Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND);
-        int round_reset = Applications.preference.getValue(Preference.ROUND_RESET, Preference.D_ROUND_RESET);
+        int exercise = Applications.preference.getValue(Preference.EXERCISE, CommonUtil.D_EXERCISE);
+        int rest = Applications.preference.getValue(Preference.REST, CommonUtil.D_REST);
+        int set = Applications.preference.getValue(Preference.SET, CommonUtil.D_SET);
+        int round = Applications.preference.getValue(Preference.ROUND, CommonUtil.D_ROUND);
+        int round_reset = Applications.preference.getValue(Preference.ROUND_RESET, CommonUtil.D_ROUND_RESET);
         int exercise_time = (exercise + rest) * set * round - rest;
         Applications.preference.put(Preference.EXERCISE_TIME, exercise_time);
 
         tv_exercise_time.setText(CommonUtil.getTime(exercise_time));
         tv_exercise.setText(CommonUtil.getTime(exercise));
         tv_rest.setText(CommonUtil.getTime(rest));
-        tv_set.setText(set + "");
-        tv_round.setText(getResources().getString(R.string.round, round + ""));
+        tv_set.setText(String.valueOf(set));
+        tv_round.setText(getResources().getString(R.string.round, String.valueOf(round)));
         tv_round_reset.setText(CommonUtil.getTime(round_reset));
-        if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
+        if (Applications.preference.getValue(Preference.SOUND, CommonUtil.D_SOUND)) {
             tv_sound.setText(getResources().getString(R.string.sound_on));
         } else {
             tv_sound.setText(getResources().getString(R.string.sound_off));
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 goProgress("round_reset", "1");
                 break;
             case R.id.btn_sound:
-                if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
+                if (Applications.preference.getValue(Preference.SOUND, CommonUtil.D_SOUND)) {
                     Applications.preference.put(Preference.SOUND, false);
                     tv_sound.setText(getResources().getString(R.string.sound_off));
                 } else {

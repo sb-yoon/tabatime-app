@@ -135,7 +135,7 @@
                 android:layout_centerVertical="true"
                 android:thumb="@drawable/switch_thumb"
                 android:track="@drawable/switch_main"
-                app:switchMinWidth="38dp"/>
+                app:switchMinWidth="38dp" />
         </RelativeLayout>
     </LinearLayout>
 

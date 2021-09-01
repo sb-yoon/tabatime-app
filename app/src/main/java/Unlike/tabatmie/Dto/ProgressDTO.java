@@ -2,15 +2,15 @@ package Unlike.tabatmie.Dto;
 
 public class ProgressDTO {
 
-    String cnt;
+    int cnt;
     boolean center;
 
-    public ProgressDTO(String cnt, boolean center) {
+    public ProgressDTO(int cnt, boolean center) {
         this.cnt = cnt;
         this.center = center;
     }
 
-    public String getCnt() {
+    public int getCnt() {
         return cnt;
     }
 

@@ -49,7 +49,7 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
     RecyclerView layer_record;
     private RecordAdapter recordAdapter;
     private ArrayList<RecordDTO> recordList;
-    TabatimeDialog selecet_dialog;
+    TabatimeDialog select_dialog;
 
     @BindView(R.id.layer_record_delete)
     RecyclerView layer_record_delete;
@@ -93,7 +93,7 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
     public void setRecord(ArrayList<RecordDTO> recordList, boolean isUpdate) {
         if (recordList.size() > 0) {
             this.recordList = recordList;
-            Log.e(TAG, recordList.size() + "");
+            Log.e(TAG, String.valueOf(recordList.size()));
             if (!isUpdate) {
                 recordAdapter = new RecordAdapter(this, recordList);
                 recordAdapter.setOnItemClick(RecordActivity.this);
@@ -113,7 +113,7 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
 
                 btn_delete.setVisibility(View.VISIBLE);
             } else {
-                closeDelete();
+                clickDelete(true);
             }
         } else {
             btn_delete.setVisibility(View.GONE);
@@ -127,88 +127,65 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
                 onBackPressed();
                 break;
             case R.id.btn_delete:
-                if (selecet_dialog != null) {
-                    selecet_dialog.dismiss();
-                }
-                btn_delete.setVisibility(View.GONE);
-                layer_delete.setVisibility(View.VISIBLE);
-                tv_delete_info.setVisibility(View.VISIBLE);
-
-                layer_record_delete.setVisibility(View.VISIBLE);
-                recordAdapter.setOnItemClick(null);
-                listAnimation(false);
+                clickDelete(false);
                 break;
             case R.id.btn_cancel:
-                closeDelete();
+                clickDelete(true);
                 break;
             case R.id.btn_record_delete:
                 delete_dialog = new TabatimeDialog(this);
                 if (!delete_dialog.isShowing()) {
-                    delete_dialog.setTitle(getResources().getString(R.string.delete));
-                    delete_dialog.setCancelBtnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            delete_dialog.dismiss();
-                        }
-                    });
-                    delete_dialog.setOkBtnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            delete_dialog.dismiss();
-                            if (getDeleteList() != null && getDeleteList().size() > 0) {
-                                CallRetrofit call = new CallRetrofit();
-                                call.callRecordDelete(getDeleteList(), recordList);
-                            } else {
-                                Toast.makeText(RecordActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    if (!delete_dialog.isShowing()) {
+                        delete_dialog.setTitle(getResources().getString(R.string.delete));
+                        delete_dialog.setCancelBtnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                delete_dialog.dismiss();
                             }
-                        }
-                    });
-                    delete_dialog.setCancelable(false);
-                    delete_dialog.show();
+                        });
+                        delete_dialog.setOkBtnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                delete_dialog.dismiss();
+                                if (getDeleteList() != null && getDeleteList().size() > 0) {
+                                    CallRetrofit call = new CallRetrofit();
+                                    call.callRecordDelete(getDeleteList(), recordList);
+                                } else {
+                                    Toast.makeText(RecordActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        delete_dialog.setCancelable(false);
+                        delete_dialog.show();
+                    }
                 }
                 break;
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
+    public void clickDelete(boolean close) {
+        if (close) {
+            btn_delete.setVisibility(View.VISIBLE);
+            layer_delete.setVisibility(View.GONE);
+            tv_delete_info.setVisibility(View.GONE);
 
+            layer_record_delete.setVisibility(View.GONE);
+            recordAdapter.setOnItemClick(RecordActivity.this);
+            recordAdapter.notifyDataSetChanged();
+            recordDeleteAdapter.setCheckBox(true);
+            recordDeleteAdapter.notifyDataSetChanged();
+        } else {
+            if (select_dialog != null) {
+                select_dialog.dismiss();
+            }
+            btn_delete.setVisibility(View.GONE);
+            layer_delete.setVisibility(View.VISIBLE);
+            tv_delete_info.setVisibility(View.VISIBLE);
 
-    @Override
-    public void onItemClick(View view, int i) {
-        selecet_dialog = new TabatimeDialog(this);
-        if (!selecet_dialog.isShowing()) {
-            selecet_dialog.setTitle(getResources().getString(R.string.routine));
-            selecet_dialog.setCancelBtnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selecet_dialog.dismiss();
-                }
-            });
-            selecet_dialog.setOkBtnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Applications.preference.put(Preference.EXERCISE, recordList.get(i).getExercise());
-                    Applications.preference.put(Preference.REST, recordList.get(i).getRest());
-                    Applications.preference.put(Preference.SET, recordList.get(i).getSet());
-                    Applications.preference.put(Preference.ROUND, recordList.get(i).getRound());
-                    Applications.preference.put(Preference.ROUND_RESET, recordList.get(i).getRound_reset());
-                    selecet_dialog.dismiss();
-                    goMain();
-                }
-            });
-            selecet_dialog.setCancelable(false);
-            selecet_dialog.show();
+            layer_record_delete.setVisibility(View.VISIBLE);
+            recordAdapter.setOnItemClick(null);
         }
-    }
-
-    public void goMain() {
-        Intent intent = new Intent(RecordActivity.this, MainActivity.class);
-        startActivity(intent);
-        onBackPressed();
+        listAnimation(close);
     }
 
     public void listAnimation(boolean close) {
@@ -227,24 +204,6 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
         moveAnim.start();
     }
 
-    public void closeDelete() {
-        btn_delete.setVisibility(View.VISIBLE);
-        layer_delete.setVisibility(View.GONE);
-        tv_delete_info.setVisibility(View.GONE);
-
-        layer_record_delete.setVisibility(View.GONE);
-        recordAdapter.setOnItemClick(RecordActivity.this);
-        listAnimation(true);
-        recordDeleteAdapter.setCheckBox(true);
-        recordDeleteAdapter.notifyDataSetChanged();
-        recordAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onDeleteClick(int idx, boolean isChecked) {
-        map.put(idx, isChecked);
-    }
-
     public List<Integer> getDeleteList() {
         try {
             if (map != null && !map.isEmpty()) {
@@ -261,5 +220,67 @@ public class RecordActivity extends AppCompatActivity implements RecordAdapter.I
             deleteList = null;
         }
         return deleteList;
+    }
+
+    @Override
+    public void onItemClick(View view, int i) {
+        select_dialog = new TabatimeDialog(this);
+        if (!select_dialog.isShowing()) {
+            select_dialog.setTitle(getResources().getString(R.string.routine));
+            select_dialog.setCancelBtnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    select_dialog.dismiss();
+                }
+            });
+            select_dialog.setOkBtnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Applications.preference.put(Preference.EXERCISE, recordList.get(i).getExercise());
+                    Applications.preference.put(Preference.REST, recordList.get(i).getRest());
+                    Applications.preference.put(Preference.SET, recordList.get(i).getSet());
+                    Applications.preference.put(Preference.ROUND, recordList.get(i).getRound());
+                    Applications.preference.put(Preference.ROUND_RESET, recordList.get(i).getRound_reset());
+                    select_dialog.dismiss();
+                    goMain();
+                }
+            });
+            select_dialog.setCancelable(false);
+            select_dialog.show();
+        }
+    }
+
+    @Override
+    public void onDeleteClick(int idx, boolean isChecked) {
+        map.put(idx, isChecked);
+    }
+
+    public void goMain() {
+        Intent intent = new Intent(RecordActivity.this, MainActivity.class);
+        startActivity(intent);
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if (select_dialog != null && select_dialog.isShowing()) {
+                select_dialog.dismiss();
+                select_dialog = null;
+            }
+            if (delete_dialog != null && delete_dialog.isShowing()) {
+                delete_dialog.dismiss();
+                delete_dialog = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

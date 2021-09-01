@@ -68,10 +68,10 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 recordViewHolder.tv_date.setText(date);
             }
             recordViewHolder.tv_exercise_time.setText(CommonUtil.getTime(recordList.get(position).getExercise_time()));
-            recordViewHolder.tv_exercise.setText(recordList.get(position).getExercise() + "");
-            recordViewHolder.tv_rest.setText(recordList.get(position).getRest() + "");
-            recordViewHolder.tv_set.setText(recordList.get(position).getSet() + "");
-            recordViewHolder.tv_round.setText(recordList.get(position).getRound() + "");
+            recordViewHolder.tv_exercise.setText(String.valueOf(recordList.get(position).getExercise()));
+            recordViewHolder.tv_rest.setText(String.valueOf(recordList.get(position).getRest()));
+            recordViewHolder.tv_set.setText(String.valueOf(recordList.get(position).getSet()));
+            recordViewHolder.tv_round.setText(String.valueOf(recordList.get(position).getRound()));
         }
     }
 

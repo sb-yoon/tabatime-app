@@ -71,20 +71,19 @@ public class TabatimeDialog extends Dialog {
     private View.OnClickListener okClickListener;
     private String cancel, ok;
 
-
     public void setDialogType(int dialogType) {
         this.dialogType = dialogType;
-    }
-
-    public void closeClickListener(View.OnClickListener closeClickListener) {
-        this.closeClickListener = closeClickListener;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void seteditInfo(String edit_info) {
+    public void closeClickListener(View.OnClickListener closeClickListener) {
+        this.closeClickListener = closeClickListener;
+    }
+
+    public void setEditInfo(String edit_info) {
         this.edit_info = edit_info;
     }
 
@@ -103,12 +102,10 @@ public class TabatimeDialog extends Dialog {
     }
 
     public void setCancelBtnClickListener(View.OnClickListener cancelClickListener) {
-        this.cancel = cancel;
         this.cancelClickListener = cancelClickListener;
     }
 
     public void setOkBtnClickListener(View.OnClickListener okClickListener) {
-        this.ok = ok;
         this.okClickListener = okClickListener;
     }
 
@@ -143,9 +140,9 @@ public class TabatimeDialog extends Dialog {
             btn_apply.setVisibility(View.VISIBLE);
             layer_btns.setVisibility(View.GONE);
 
-            setfilter(et_min);
-            setfilter(et_sec);
-            setfilter(et_cnt);
+            setFilter(et_min);
+            setFilter(et_sec);
+            setFilter(et_cnt);
 
             btn_close.setOnClickListener(closeClickListener);
             btn_apply.setOnClickListener(applyClickListener);
@@ -184,7 +181,7 @@ public class TabatimeDialog extends Dialog {
         }
     }
 
-    public void setfilter(EditText et) {
+    public void setFilter(EditText et) {
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

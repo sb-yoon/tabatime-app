@@ -14,11 +14,17 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
 import androidx.core.content.ContextCompat;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import Unlike.tabatmie.R;
 import Unlike.tabatmie.util.Applications;
@@ -99,7 +105,7 @@ public class ExerciseActivity extends AppCompatActivity {
     private boolean isActionPause = false;
     private boolean isSwitchPause = true;
 
-    //private AdView mAdView;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,55 +119,39 @@ public class ExerciseActivity extends AppCompatActivity {
         setReady();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (isSwitchPause && isStart && !isActionPause) {
-            resumeTimer();
-            if (mPlayer != null) {
-                mPlayer.play();
-            }
-        }
-    }
-
     public void init() {
 
         try {
-            /*mAdView = findViewById(R.id.adView);
+            mAdView = findViewById(R.id.adView);
             MobileAds.initialize(this, new OnInitializationCompleteListener() {
                 @Override
                 public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
                     AdRequest adRequest = new AdRequest.Builder().build();
                     mAdView.loadAd(adRequest);
                 }
-            });*/
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
-        if (Applications.preference.getValue(Preference.EXERCISE_PAUSE, Preference.D_PAUSE)) {
-            isSwitchPause = true;
-            ready_pause.setChecked(true);
-        } else {
-            isSwitchPause = false;
-            ready_pause.setChecked(false);
-        }
+        isSwitchPause = Applications.preference.getValue(Preference.EXERCISE_PAUSE, CommonUtil.D_PAUSE);
+        ready_pause.setChecked(isSwitchPause);
 
-        exercise_time = Applications.preference.getValue(Preference.EXERCISE_TIME, Preference.D_EXERCISE_TIME);
-        ready = Preference.D_READY;
-        exercise = Applications.preference.getValue(Preference.EXERCISE, Preference.D_EXERCISE);
-        rest = Applications.preference.getValue(Preference.REST, Preference.D_REST);
+        exercise_time = Applications.preference.getValue(Preference.EXERCISE_TIME, CommonUtil.D_EXERCISE_TIME);
+        ready = CommonUtil.D_READY;
+        exercise = Applications.preference.getValue(Preference.EXERCISE, CommonUtil.D_EXERCISE);
+        rest = Applications.preference.getValue(Preference.REST, CommonUtil.D_REST);
         set = 1;
         round = 1;
-        round_reset = Applications.preference.getValue(Preference.ROUND_RESET, Preference.D_ROUND_RESET);
+        round_reset = Applications.preference.getValue(Preference.ROUND_RESET, CommonUtil.D_ROUND_RESET);
 
-        max_set = Applications.preference.getValue(Preference.SET, Preference.D_SET);
-        max_round = Applications.preference.getValue(Preference.ROUND, Preference.D_ROUND);
+        max_set = Applications.preference.getValue(Preference.SET, CommonUtil.D_SET);
+        max_round = Applications.preference.getValue(Preference.ROUND, CommonUtil.D_ROUND);
 
-        tv_set_total_num.setText(getResources().getString(R.string.total_num, max_set + ""));
-        tv_round_total_num.setText(getResources().getString(R.string.total_num, max_round + ""));
+        tv_set_total_num.setText(getResources().getString(R.string.total_num, String.valueOf(max_set)));
+        tv_round_total_num.setText(getResources().getString(R.string.total_num, String.valueOf(max_round)));
 
 
         ViewTreeObserver vto = layer_progressbar.getViewTreeObserver();
@@ -178,7 +168,7 @@ public class ExerciseActivity extends AppCompatActivity {
         iv_play.setVisibility(View.GONE);
         iv_pause.setVisibility(View.VISIBLE);
 
-        if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
+        if (Applications.preference.getValue(Preference.SOUND, CommonUtil.D_SOUND)) {
             iv_sound_set.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_volume_white));
         } else {
             iv_sound_set.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_mute_white));
@@ -186,6 +176,25 @@ public class ExerciseActivity extends AppCompatActivity {
 
         btn_exercise_out.setVisibility(View.GONE);
         layer_exercise_time.setVisibility(View.INVISIBLE);
+    }
+
+    public int getWidth() {
+        int h = progressbar.getMeasuredWidth();
+        if (h == 0) {
+            h = 248;
+        }
+        return h;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isSwitchPause && isStart && !isActionPause) {
+            resumeTimer();
+            if (mPlayer != null) {
+                mPlayer.play();
+            }
+        }
     }
 
     public void setReady() {
@@ -226,8 +235,8 @@ public class ExerciseActivity extends AppCompatActivity {
 
         layer_pause.setVisibility(View.GONE);
         layer_exercise_num.setVisibility(View.VISIBLE);
-        tv_set_num.setText(set + "");
-        tv_round_num.setText(round + "");
+        tv_set_num.setText(String.valueOf(set));
+        tv_round_num.setText(String.valueOf(round));
 
         progressbar.setMax(exercise * 1000);
         tv_time.setText(CommonUtil.getTime(exercise));
@@ -340,6 +349,14 @@ public class ExerciseActivity extends AppCompatActivity {
         progressTimer.start();
     }
 
+    public void startTimer(int time, boolean start) {
+        setProgressTime(time);
+        setTime(time);
+        if (start && exercise_timer == null) {
+            setExerciseTime(exercise_time);
+        }
+    }
+
     public void setTime(int time) {
         int sec = time * 1000;
         tv_time.setText(CommonUtil.getTime(time));
@@ -349,7 +366,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 long count = millisUntilFinished / 1000;
                 tv_time.setText(CommonUtil.getTime((int) count));
                 try {
-                    if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND) && count == 3) {
+                    if (Applications.preference.getValue(Preference.SOUND, CommonUtil.D_SOUND) && count == 3) {
                         if (mPlayer == null) {
                             mPlayer = SoundPoolPlayer.create(ExerciseActivity.this, R.raw.countdown);
                             mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -395,14 +412,6 @@ public class ExerciseActivity extends AppCompatActivity {
         exercise_timer.create();
     }
 
-    public void startTimer(int time, boolean start) {
-        setProgressTime(time);
-        setTime(time);
-        if (start && exercise_timer == null) {
-            setExerciseTime(exercise_time);
-        }
-    }
-
     public void pauseTimer() {
         try {
             progressTimer.pause();
@@ -437,18 +446,10 @@ public class ExerciseActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ready_pause:
-                if (ready_pause.isChecked()) {
-                    isSwitchPause = true;
-                } else {
-                    isSwitchPause = false;
-                }
+                isSwitchPause = ready_pause.isChecked();
                 break;
             case R.id.round_pause:
-                if (round_pause.isChecked()) {
-                    isSwitchPause = true;
-                } else {
-                    isSwitchPause = false;
-                }
+                isSwitchPause = round_pause.isChecked();
                 break;
             case R.id.btn_sound:
                 if (btn_sound.isChecked()) {
@@ -470,7 +471,7 @@ public class ExerciseActivity extends AppCompatActivity {
                     btn_exercise_out.setVisibility(View.VISIBLE);
                     pauseTimer();
                     isActionPause = true;
-                    if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
+                    if (Applications.preference.getValue(Preference.SOUND, CommonUtil.D_SOUND)) {
                         if (mPlayer != null && mPlayer.isPlaying()) {
                             mPlayer.pause();
                         }
@@ -481,7 +482,7 @@ public class ExerciseActivity extends AppCompatActivity {
                     btn_exercise_out.setVisibility(View.GONE);
                     resumeTimer();
                     isActionPause = false;
-                    if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
+                    if (Applications.preference.getValue(Preference.SOUND, CommonUtil.D_SOUND)) {
                         if (mPlayer != null) {
                             mPlayer.play();
                         }
@@ -502,9 +503,10 @@ public class ExerciseActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        //super.onBackPressed();
+    public void goSuccess() {
+        Intent intent = new Intent(ExerciseActivity.this, SuccessActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void goBack() {
@@ -513,6 +515,11 @@ public class ExerciseActivity extends AppCompatActivity {
             mPlayer = null;
         }
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 
     @Override
@@ -539,19 +546,5 @@ public class ExerciseActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void goSuccess() {
-        Intent intent = new Intent(ExerciseActivity.this, SuccessActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public int getWidth() {
-        int h = progressbar.getMeasuredWidth();
-        if (h == 0) {
-            h = 248;
-        }
-        return h;
     }
 }

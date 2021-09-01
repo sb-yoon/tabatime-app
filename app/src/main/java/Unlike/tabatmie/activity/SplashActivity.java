@@ -31,9 +31,6 @@ public class SplashActivity extends AppCompatActivity {
 
     private String TAG = this.getClass().toString();
 
-    CallRetrofit callLogin;
-    CallRetrofit callProfile;
-
     @BindView(R.id.btn_login)
     RelativeLayout btn_login;
 
@@ -44,7 +41,15 @@ public class SplashActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        init();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!Applications.preference.getValue(Preference.TOKEN, "").isEmpty()) {
+                    CallRetrofit callProfile = new CallRetrofit();
+                    callProfile.callProfile();
+                }
+            }
+        }).start();
 
         Intent intent = getIntent();
         if (intent != null && intent.getAction() != null && intent.getAction().equals("login")) {
@@ -55,19 +60,12 @@ public class SplashActivity extends AppCompatActivity {
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    goMain(1);
+                    goMain();
                 }
             };
             Timer timer = new Timer();
             long splashDelay = 2000;
             timer.schedule(task, splashDelay);
-        }
-    }
-
-    public void init() {
-        if (!Applications.preference.getValue(Preference.TOKEN, "").isEmpty()) {
-            callProfile = new CallRetrofit();
-            callProfile.callProfile();
         }
     }
 
@@ -101,7 +99,7 @@ public class SplashActivity extends AppCompatActivity {
                                     HashMap<String, Object> map = new HashMap<>();
                                     map.put("email", email);
                                     map.put("snsId", id);
-                                    callLogin = new CallRetrofit();
+                                    CallRetrofit callLogin = new CallRetrofit();
                                     callLogin.setHashMap(map);
                                     callLogin.callLogin(false);
                                     Applications.preference.put(Preference.EMAIL, email);
@@ -122,8 +120,7 @@ public class SplashActivity extends AppCompatActivity {
         }
     };
 
-    public void goMain(int type) {
-        Log.e(TAG, "goMain / " + type);
+    public void goMain() {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();

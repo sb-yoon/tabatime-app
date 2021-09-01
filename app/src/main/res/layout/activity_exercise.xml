@@ -390,26 +390,16 @@
                     android:textStyle="bold" />
             </RelativeLayout>
 
-            <TextView
+            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@id/layer_action"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="54dp"
                 android:layout_marginBottom="65dp"
-                android:background="@color/black"
-                android:gravity="center"
-                android:text="광고"
-                android:textColor="@color/white" />
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/banner" />
         </RelativeLayout>
     </RelativeLayout>
-
-    <!--<com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner" />-->
 </LinearLayout>

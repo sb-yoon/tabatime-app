@@ -34,22 +34,21 @@ public class ProgressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         progressViewHolder = (ProgressViewHolder) holder;
         if (!progressList.isEmpty()) {
-            String cnt = progressList.get(position).getCnt();
-            if (Integer.parseInt(cnt) == 0) {
-                progressViewHolder.tv_cnt.setText(cnt);
+            int cnt = progressList.get(position).getCnt();
+            if (cnt == 0) {
+                progressViewHolder.tv_cnt.setText(String.valueOf(cnt));
                 progressViewHolder.tv_cnt.setVisibility(View.INVISIBLE);
                 progressViewHolder.tv_title.setVisibility(View.INVISIBLE);
             } else {
                 if (progressList.get(position).isCenter()) {
-                    progressViewHolder.tv_title.setVisibility(View.VISIBLE);
                     progressViewHolder.tv_cnt.setVisibility(View.GONE);
-                    progressViewHolder.tv_title.setText(cnt);
+                    progressViewHolder.tv_title.setText(String.valueOf(cnt));
+                    progressViewHolder.tv_title.setVisibility(View.VISIBLE);
                 } else {
-                    progressViewHolder.tv_title.setVisibility(View.GONE);
+                    progressViewHolder.tv_cnt.setText(String.valueOf(cnt));
                     progressViewHolder.tv_cnt.setVisibility(View.VISIBLE);
-                    progressViewHolder.tv_cnt.setText(cnt);
+                    progressViewHolder.tv_title.setVisibility(View.GONE);
                 }
-
             }
         }
         holder.itemView.requestLayout();

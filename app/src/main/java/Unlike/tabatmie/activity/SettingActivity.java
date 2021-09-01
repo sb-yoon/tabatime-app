@@ -1,5 +1,6 @@
 package Unlike.tabatmie.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,8 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
 public class SettingActivity extends AppCompatActivity {
+
+    private String TAG = this.getClass().toString();
 
     @BindView(R.id.btn_back)
     RelativeLayout btn_back;
@@ -74,17 +77,9 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void init() {
-        if (Applications.preference.getValue(Preference.SOUND, Preference.D_SOUND)) {
-            setSound(true);
-        } else {
-            setSound(false);
-        }
+        setSound(Applications.preference.getValue(Preference.SOUND, CommonUtil.D_SOUND));
 
-        if (Applications.preference.getValue(Preference.EXERCISE_PAUSE, Preference.D_PAUSE)) {
-            switch_pause.setChecked(true);
-        } else {
-            switch_pause.setChecked(false);
-        }
+        switch_pause.setChecked(Applications.preference.getValue(Preference.EXERCISE_PAUSE, CommonUtil.D_PAUSE));
 
         tv_version.setText(BuildConfig.VERSION_NAME);
     }
@@ -92,6 +87,10 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        refresh();
+    }
+
+    public void refresh() {
         String token = Applications.preference.getValue(Preference.TOKEN, "");
         if (token.isEmpty()) {
             btn_logout.setVisibility(View.GONE);
@@ -115,13 +114,10 @@ public class SettingActivity extends AppCompatActivity {
                 setSound(false);
                 break;
             case R.id.switch_pause:
-                if (switch_pause.isChecked()) {
-                    Applications.preference.put(Preference.EXERCISE_PAUSE, true);
-                } else {
-                    Applications.preference.put(Preference.EXERCISE_PAUSE, false);
-                }
+                Applications.preference.put(Preference.EXERCISE_PAUSE, switch_pause.isChecked());
                 break;
             case R.id.btn_terms:
+                goTerms();
                 break;
             case R.id.btn_logout:
                 btn_logout.setVisibility(View.GONE);
@@ -136,12 +132,6 @@ public class SettingActivity extends AppCompatActivity {
                 }
                 break;
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 
     public void setSound(boolean sound) {
@@ -163,7 +153,7 @@ public class SettingActivity extends AppCompatActivity {
         @Override
         public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
             if (throwable != null) {
-                Log.e("fail", throwable.toString());
+                Log.e(TAG, "Login fail" + throwable.toString());
                 Toast.makeText(SettingActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
             } else {
                 if (oAuthToken != null) {
@@ -197,14 +187,14 @@ public class SettingActivity extends AppCompatActivity {
         }
     };
 
-    public void refresh() {
-        String token = Applications.preference.getValue(Preference.TOKEN, "");
-        if (token.isEmpty()) {
-            btn_logout.setVisibility(View.GONE);
-            btn_login.setVisibility(View.VISIBLE);
-        } else {
-            btn_logout.setVisibility(View.VISIBLE);
-            btn_login.setVisibility(View.GONE);
-        }
+    public void goTerms(){
+        Intent goLogin = new Intent(SettingActivity.this, TermsActivity.class);
+        startActivity(goLogin);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

@@ -19,6 +19,8 @@ import butterknife.OnClick;
 
 public class StatActivity extends AppCompatActivity implements Animator.AnimatorListener {
 
+    private String TAG = this.getClass().toString();
+
     @BindView(R.id.btn_back)
     RelativeLayout btn_back;
 
@@ -55,58 +57,30 @@ public class StatActivity extends AppCompatActivity implements Animator.Animator
             e.printStackTrace();
         }
 
-        init();
-    }
-
-    public void init() {
         CallRetrofit call = new CallRetrofit();
         call.callStat();
-    }
-
-    @OnClick({R.id.btn_back})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_back:
-                onBackPressed();
-                break;
-        }
     }
 
     public void setStat(int lank, int cnt, int time) {
         tv_comment.setText(getResources().getString(R.string.user_now));
         tv_lank.setVisibility(View.VISIBLE);
         tv_lank.setText(getResources().getString(R.string.lank, lank + "") + "%");
-        setProgressAnim(100 - lank);
-        setCntAnim(cnt);
+        setProgressAnim(100 - lank, true);
+        setProgressAnim(cnt, false);
         setTimeAnim(time);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
-
-    public void setProgressAnim(int lank) {
-        ValueAnimator lankAnimator = ValueAnimator.ofInt(0, lank);
+    public void setProgressAnim(int value, boolean isArc) {
+        ValueAnimator lankAnimator = ValueAnimator.ofInt(0, value);
         lankAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 int value = (int) animation.getAnimatedValue();
-                arc_progress.setProgress(value);
-            }
-        });
-        lankAnimator.setDuration(ani);
-        lankAnimator.start();
-    }
-
-    public void setCntAnim(int cnt) {
-        ValueAnimator lankAnimator = ValueAnimator.ofInt(0, cnt);
-        lankAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-                tv_total_cnt.setText(value + "");
+                if (isArc) {
+                    arc_progress.setProgress(value);
+                } else {
+                    tv_total_cnt.setText(String.valueOf(value));
+                }
             }
         });
         lankAnimator.setDuration(ani);
@@ -135,7 +109,7 @@ public class StatActivity extends AppCompatActivity implements Animator.Animator
             animator = 1;
         }
         int anim_time = ani / animator;
-        Log.e("stat", anim_time + "");
+        Log.e("stat", String.valueOf(anim_time));
 
         if (hour > 0) {
             hourAnimator = ValueAnimator.ofInt(0, hour);
@@ -211,5 +185,20 @@ public class StatActivity extends AppCompatActivity implements Animator.Animator
     @Override
     public void onAnimationRepeat(Animator animator) {
 
+    }
+
+    @OnClick({R.id.btn_back})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_back:
+                onBackPressed();
+                break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
