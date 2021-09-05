@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -73,6 +74,8 @@ public class ExerciseActivity extends AppCompatActivity {
     @BindView(R.id.tv_state)
     TextView tv_state;
 
+    @BindView(R.id.layer_others)
+    RelativeLayout layer_others;
     @BindView(R.id.btn_action)
     AppCompatToggleButton btn_action;
     @BindView(R.id.iv_play)
@@ -176,6 +179,21 @@ public class ExerciseActivity extends AppCompatActivity {
 
         btn_exercise_out.setVisibility(View.GONE);
         layer_exercise_time.setVisibility(View.INVISIBLE);
+
+        if (isNavigationBar()) {
+            int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+            int deviceHeight = 0;
+            if (resourceId > 0) {
+                deviceHeight = getResources().getDimensionPixelSize(resourceId);
+            }
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 0, 0, deviceHeight);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            layer_others.setLayoutParams(params);
+        }
     }
 
     public int getWidth() {
@@ -184,6 +202,16 @@ public class ExerciseActivity extends AppCompatActivity {
             h = 248;
         }
         return h;
+    }
+
+    public boolean isNavigationBar() {
+        try {
+            int id = getResources().getIdentifier("config_showNavigationBar", "bool", "android");
+            return id > 0 && getResources().getBoolean(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return true;
+        }
     }
 
     @Override
@@ -493,12 +521,14 @@ public class ExerciseActivity extends AppCompatActivity {
                 goBack();
                 break;
             case R.id.btn_skip:
-                if (mPlayer != null) {
-                    mPlayer.stop();
-                    mPlayer = null;
+                if (!isSwitchPause) {
+                    if (mPlayer != null) {
+                        mPlayer.stop();
+                        mPlayer = null;
+                    }
+                    stopTimer();
+                    chkExerciseStep();
                 }
-                stopTimer();
-                chkExerciseStep();
                 break;
         }
     }

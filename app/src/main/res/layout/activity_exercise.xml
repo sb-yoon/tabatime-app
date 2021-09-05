@@ -182,7 +182,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/layer_center"
+            android:layout_above="@id/layer_others"
             android:layout_below="@id/layer_top"
             android:layout_marginLeft="56dp"
             android:layout_marginRight="56dp"
@@ -249,157 +249,163 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/layer_center"
+            android:id="@+id/layer_others"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
 
             <RelativeLayout
-                android:id="@+id/layer_action"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/layer_white_circle"
-                android:elevation="20dp">
+                android:id="@+id/layer_btns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatToggleButton
-                    android:id="@+id/btn_action"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/transparent"
-                    android:clickable="true"
-                    android:textColor="@color/transparent" />
+                <RelativeLayout
+                    android:id="@+id/layer_action"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/layer_white_circle"
+                    android:elevation="20dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    android:layout_centerInParent="true"
-                    android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatToggleButton
+                        android:id="@+id/btn_action"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:clickable="true"
+                        android:textColor="@color/transparent" />
 
-                    <View
-                        android:layout_width="23dp"
-                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="24dp"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="23dp"
+                            android:layout_height="match_parent" />
+
+                        <ImageView
+                            android:id="@+id/iv_play"
+                            android:layout_width="21dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_play_pink"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/iv_play"
-                        android:layout_width="21dp"
+                        android:id="@+id/iv_pause"
+                        android:layout_width="18dp"
+                        android:layout_height="24dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_pause_pink"
+                        android:visibility="visible" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="42dp"
+                    android:layout_toLeftOf="@id/layer_action"
+                    android:background="@drawable/layer_white_circle_42"
+                    android:elevation="20dp">
+
+                    <androidx.appcompat.widget.AppCompatToggleButton
+                        android:id="@+id/btn_sound"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_play_pink"
-                        android:visibility="gone" />
+                        android:background="@color/transparent"
+                        android:clickable="true"
+                        android:textColor="@color/transparent" />
 
-                    <View
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent" />
-                </LinearLayout>
+                    <ImageView
+                        android:id="@+id/iv_sound_set"
+                        android:layout_width="17dp"
+                        android:layout_height="16dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_volume_white" />
+                </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/iv_pause"
-                    android:layout_width="18dp"
-                    android:layout_height="24dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_pause_pink"
-                    android:visibility="visible" />
+                <RelativeLayout
+                    android:id="@+id/btn_exercise_out"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginLeft="42dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_toRightOf="@id/layer_action"
+                    android:background="@drawable/layer_white_circle_42"
+                    android:elevation="20dp"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_out" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btn_skip"
+                    android:layout_width="82dp"
+                    android:layout_height="28dp"
+                    android:layout_below="@id/layer_action"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/layer_white_round_4"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/nexon_lv_2_gothic_bold"
+                        android:includeFontPadding="false"
+                        android:text="@string/skip"
+                        android:textColor="@color/white"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layer_exercise_time"
+                    android:layout_width="145dp"
+                    android:layout_height="28dp"
+                    android:layout_below="@id/layer_action"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/layer_white_round_4"
+                    android:visibility="visible">
+
+
+                    <TextView
+                        android:id="@+id/tv_exercise_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/nexon_lv_2_gothic_bold"
+                        android:includeFontPadding="false"
+                        android:text="@string/remain"
+                        android:textColor="@color/white"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginRight="42dp"
-                android:layout_toLeftOf="@id/layer_action"
-                android:background="@drawable/layer_white_circle_42"
-                android:elevation="20dp">
 
-                <androidx.appcompat.widget.AppCompatToggleButton
-                    android:id="@+id/btn_sound"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/transparent"
-                    android:clickable="true"
-                    android:textColor="@color/transparent" />
-
-                <ImageView
-                    android:id="@+id/iv_sound_set"
-                    android:layout_width="17dp"
-                    android:layout_height="16dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_volume_white" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/btn_exercise_out"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginLeft="42dp"
-                android:layout_marginTop="11dp"
-                android:layout_toRightOf="@id/layer_action"
-                android:background="@drawable/layer_white_circle_42"
-                android:elevation="20dp"
-                android:visibility="visible">
-
-                <ImageView
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_out" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/btn_skip"
-                android:layout_width="82dp"
-                android:layout_height="28dp"
-                android:layout_below="@id/layer_action"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="65dp"
-                android:background="@drawable/layer_white_round_4"
-                android:visibility="invisible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/nexon_lv_2_gothic_bold"
-                    android:includeFontPadding="false"
-                    android:text="@string/skip"
-                    android:textColor="@color/white"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/layer_exercise_time"
-                android:layout_width="145dp"
-                android:layout_height="28dp"
-                android:layout_below="@id/layer_action"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/layer_white_round_4"
-                android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/tv_exercise_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/nexon_lv_2_gothic_bold"
-                    android:includeFontPadding="false"
-                    android:text="@string/remain"
-                    android:textColor="@color/white"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
-            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            <com.google.android.gms.ads.AdView
                 android:id="@+id/adView"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@id/layer_action"
+                android:layout_below="@id/layer_btns"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="54dp"
-                android:layout_marginBottom="65dp"
-                ads:adSize="BANNER"
-                ads:adUnitId="@string/banner" />
+                android:layout_marginTop="10dp"
+                app:adSize="BANNER"
+                app:adUnitId="@string/banner" />
         </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

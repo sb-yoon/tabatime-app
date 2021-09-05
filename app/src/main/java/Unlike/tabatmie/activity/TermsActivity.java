@@ -34,7 +34,7 @@ public class TermsActivity extends AppCompatActivity {
             }
         });
 
-        webview.loadUrl("http://3.35.200.21/privacy_terms.html");
+        webview.loadUrl("http://3.37.223.41/privacy_terms.html");
     }
 
     @Override

@@ -18,6 +18,7 @@ import Unlike.tabatmie.util.Preference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import marty_library.ration.com.library.utils.OnSingleClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,6 +82,21 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        init();
+    }
+
+    public void init() {
+        tv_login.setOnClickListener(listener);
+        btn_record.setOnClickListener(listener);
+        btn_stat.setOnClickListener(listener);
+        btn_setting.setOnClickListener(listener);
+        btn_start_exercise.setOnClickListener(listener);
+        btn_exercise.setOnClickListener(listener);
+        btn_rest.setOnClickListener(listener);
+        btn_set.setOnClickListener(listener);
+        btn_round.setOnClickListener(listener);
+        btn_round_reset.setOnClickListener(listener);
     }
 
     @Override
@@ -165,13 +181,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btn_menu, R.id.tv_login, R.id.btn_record, R.id.btn_stat, R.id.btn_setting, R.id.btn_start_exercise, R.id.btn_exercise, R.id.btn_rest, R.id.btn_set, R.id.btn_round, R.id.btn_round_reset, R.id.btn_sound})
+    @OnClick({R.id.btn_menu/*, R.id.tv_login, R.id.btn_record, R.id.btn_stat, R.id.btn_setting, R.id.btn_start_exercise, R.id.btn_exercise, R.id.btn_rest, R.id.btn_set, R.id.btn_round, R.id.btn_round_reset*/, R.id.btn_sound})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_menu:
                 drawer.openDrawer(GravityCompat.START);
                 break;
-            case R.id.tv_login:
+            /*case R.id.tv_login:
                 goLogin();
                 break;
             case R.id.btn_record:
@@ -186,9 +202,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_start_exercise:
                 goExercise();
                 break;
-            case R.id.btn_exercise:
+           *//* case R.id.btn_exercise:
                 goProgress("exercise", "1");
-                break;
+                break;*//*
             case R.id.btn_rest:
                 goProgress("rest", "1");
                 break;
@@ -200,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btn_round_reset:
                 goProgress("round_reset", "1");
-                break;
+                break;*/
             case R.id.btn_sound:
                 if (Applications.preference.getValue(Preference.SOUND, CommonUtil.D_SOUND)) {
                     Applications.preference.put(Preference.SOUND, false);
@@ -212,4 +228,43 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    OnSingleClickListener listener = new OnSingleClickListener() {
+        @Override
+        public void onSingleClick(View view) {
+            int id = view.getId();
+            switch (id) {
+                case R.id.tv_login:
+                    goLogin();
+                    break;
+                case R.id.btn_record:
+                    goRecord();
+                    break;
+                case R.id.btn_stat:
+                    goStat();
+                    break;
+                case R.id.btn_setting:
+                    goSetting();
+                    break;
+                case R.id.btn_start_exercise:
+                    goExercise();
+                    break;
+                case R.id.btn_exercise:
+                    goProgress("exercise", "1");
+                    break;
+                case R.id.btn_rest:
+                    goProgress("rest", "1");
+                    break;
+                case R.id.btn_set:
+                    goProgress("set", "2");
+                    break;
+                case R.id.btn_round:
+                    goProgress("round", "2");
+                    break;
+                case R.id.btn_round_reset:
+                    goProgress("round_reset", "1");
+                    break;
+            }
+        }
+    };
 }
